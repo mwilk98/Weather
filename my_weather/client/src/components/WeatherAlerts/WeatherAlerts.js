@@ -22,7 +22,7 @@ class WeatherAlerts extends React.Component{
         
         e.preventDefault()
           
-          fetch(`http://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&APPID=${API_key}`)
+          fetch(`http://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&lang=pl&APPID=${API_key}`)
           .then(response => {
               if(response.ok){
                   return response

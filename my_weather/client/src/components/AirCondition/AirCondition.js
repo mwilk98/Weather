@@ -2,13 +2,16 @@ import React from 'react'
 import Form from '../Form/Form'
 import CalDate from '../Functions/CalDate';
 import CalTime from '../Functions/CalTime';
+import AirConditionItem from './AirConditionItem'
+import './AirCondition.css';
 
 const API_key="157d33f8987d245bc6a1997408e90015"
 
 
 class AirCondition extends React.Component{
-
-    state={
+    constructor(props){
+        super(props)
+        this.state={
         value:"",
         city:"",
         country:"",
@@ -24,6 +27,7 @@ class AirCondition extends React.Component{
         pm10:undefined,
         so2:undefined,
         error:false
+        }
     }
     
     getAir = (e) =>{
@@ -102,9 +106,10 @@ class AirCondition extends React.Component{
     render(){
         
         return(
-            <div >
-                <h1>Stan Powietrza</h1>
-                <div>
+            <div className="main"style={{ 
+                backgroundImage: `url("/images/bg_air.jpg")` 
+              }}>
+                <div className="city-form">
                 <Form 
                 value={this.state.value}  
                 handler={this.inputHandler}
@@ -112,21 +117,13 @@ class AirCondition extends React.Component{
                 /> 
                 </div> 
                 <div>
-                        <p>{this.state.city}</p>
-                        <p>{this.state.country}</p>
-                        <p>{this.state.date}</p>
-                        <p>{this.state.time}</p>
-                        <p>{this.state.aqi}</p>
-                        <p>{this.state.co}</p>
-                        <p>{this.state.nh3}</p>
-                        <p>{this.state.no}</p>
-                        <p>{this.state.no2}</p>
-                        <p>{this.state.o3}</p>
-                        <p>{this.state.pm2_5}</p>
-                        <p>{this.state.pm10}</p>
-                        <p>{this.state.so2}</p>  
+                {this.state.city ?(
+                    <AirConditionItem air={this.state}/>   
+                ):null}
                 </div>
-            </div>
+                
+                </div>
+
             
         )
     }

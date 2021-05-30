@@ -73,7 +73,56 @@ class CurrentWeather extends React.Component{
             hourlyProperty: this.state.forecastHourlyElements[newIndex]
         })
     }
-    
+    defaultWeather = () => {
+        this.setState(state =>({
+            city:"Warszawa",
+            error:false
+          }))
+          fetch(`http://api.openweathermap.org/data/2.5/weather?q=warszawa&lang=pl&APPID=${API_key}`)
+          .then(response => {
+              if(response.ok){
+                  return response
+              }
+              throw Error("Błąd pobierania danych z API")
+          })
+          .then(response => response.json())
+          .then(response => {
+              const localTime = new Date().toLocaleString()
+              console.log(response)
+              this.getForecastDaily(response.coord.lat,response.coord.lon)
+              this.getForecastHourly(response.coord.lat,response.coord.lon)
+              this.setState(state =>({
+                city:state.city,
+                country:response.sys.country,
+                date:CalDate(response.dt),
+                time:CalTime(response.dt,response.timezone),
+                weather:response.weather[0].description,
+                temp:CalCelsius(response.main.temp),
+                tempMax:CalCelsius(response.main.temp_max),
+                tempMin:CalCelsius(response.main.temp_min),
+                tempFeel:CalCelsius(response.main.feels_like),
+                pressure:response.main.pressure,
+                wind:CalWindSpeed(response.wind.speed),
+                image:weatherIcons[response.weather[0].id],
+                lat:response.coord.lat,
+                lon:response.coord.lon,
+                clouds:response.clouds.all, 
+                humidity:response.main.humidity,
+                sunrise:CalTime(response.sys.sunrise,response.timezone),
+                sunset:CalTime(response.sys.sunset,response.timezone),
+                background:"/images/cloudyCity.jpg",
+                error:false
+              }))
+          })
+          .catch(err =>{
+            console.log(err)
+            this.setState(prevState =>{
+                return{
+                error:true,
+                city:prevState.city
+            }})
+        })
+    }
     getWeather = (e) =>{
         
         e.preventDefault()
@@ -193,6 +242,9 @@ class CurrentWeather extends React.Component{
             value:e.target.value
         })
     }
+    componentDidMount(){
+        this.defaultWeather()
+     }
     render(){
         const {forecastDailyElements, forecastHourlyElements, dailyProperty, hourlyProperty}=this.state
         return(
