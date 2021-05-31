@@ -51,6 +51,7 @@ class CurrentWeather extends React.Component{
         this.setState({
             dailyProperty: this.state.forecastDailyElements[newIndex]
         })
+        console.log(newIndex)
     }
 
     prevdailyProperty = () => {
@@ -73,12 +74,12 @@ class CurrentWeather extends React.Component{
             hourlyProperty: this.state.forecastHourlyElements[newIndex]
         })
     }
-    defaultWeather = () => {
+    defaultWeather = (cityName) => {
         this.setState(state =>({
-            city:"Warszawa",
+            city:cityName,
             error:false
           }))
-          fetch(`http://api.openweathermap.org/data/2.5/weather?q=warszawa&lang=pl&APPID=${API_key}`)
+          fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&lang=pl&APPID=${API_key}`)
           .then(response => {
               if(response.ok){
                   return response
@@ -89,8 +90,6 @@ class CurrentWeather extends React.Component{
           .then(response => {
               const localTime = new Date().toLocaleString()
               console.log(response)
-              this.getForecastDaily(response.coord.lat,response.coord.lon)
-              this.getForecastHourly(response.coord.lat,response.coord.lon)
               this.setState(state =>({
                 city:state.city,
                 country:response.sys.country,
@@ -243,7 +242,7 @@ class CurrentWeather extends React.Component{
         })
     }
     componentDidMount(){
-        this.defaultWeather()
+        this.defaultWeather("Warszawa")
      }
     render(){
         const {forecastDailyElements, forecastHourlyElements, dailyProperty, hourlyProperty}=this.state

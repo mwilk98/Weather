@@ -1,7 +1,6 @@
 .main{
     width: auto;
     height: auto;
-    pointer-events:all;
 }
 .weatherCard{
     pointer-events:all;

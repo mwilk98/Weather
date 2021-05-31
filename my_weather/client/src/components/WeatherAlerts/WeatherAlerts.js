@@ -2,6 +2,8 @@ import React from 'react'
 import Form from '../Form/Form'
 import CalDate from '../Functions/CalDate';
 import CalTime from '../Functions/CalTime';
+import WeatherAlertsItem from './WeatherAlertsItem'
+import './WeatherAlerts.css';
 
 const API_key="157d33f8987d245bc6a1997408e90015"
 
@@ -93,9 +95,10 @@ class WeatherAlerts extends React.Component{
     render(){
         
         return(
-            <div >
-                <h1>Alrty Pogodowe</h1>
-                <div>
+            <div className="main"style={{ 
+                backgroundImage: `url("/images/bg_alerts.png")` 
+              }}>
+                <div className="city-form">
                 <Form 
                 value={this.state.value}  
                 handler={this.inputHandler}
@@ -103,11 +106,7 @@ class WeatherAlerts extends React.Component{
                 /> 
                 </div> 
                 <div>
-                        <p>{this.state.city}</p>
-                        <p>{this.state.country}</p>
-                        <p>{this.state.date}</p>
-                        <p>{this.state.time}</p> 
-                        <p>{this.state.description}</p> 
+                <WeatherAlertsItem alert={this.state}/> 
                 </div>
             </div>
             
