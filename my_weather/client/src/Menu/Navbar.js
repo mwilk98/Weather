@@ -60,8 +60,8 @@ function Navbar(){
                     {dropdown && <Dropdown/>}
                 </li>
                 <li className='nav-item'>
-                    <Link to='/contact-us' className='nav-links' onClick={closeMobileMenu}>
-                        Kontakt
+                    <Link to='/compare' className='nav-links' onClick={closeMobileMenu}>
+                        Porównywarka
                     </Link>
                 </li>
                 <li className='nav-item'>

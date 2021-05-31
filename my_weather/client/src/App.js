@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import UserPanel from './components/UserPanel/UserPanel';
 import AirCondition from './components/AirCondition/AirCondition';
 import WeatherAlerts from './components/WeatherAlerts/WeatherAlerts';
+import Compare from './components/Compare/Compare'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path='/my-weather' exact component={UserPanel}/>
         <Route path='/air-condition' exact component={AirCondition}/>
         <Route path='/weather-alerts' exact component={WeatherAlerts}/>
+        <Route path='/compare' exact component={Compare}/>
       </Switch>
     </Router>
 
