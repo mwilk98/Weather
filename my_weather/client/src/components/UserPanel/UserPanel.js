@@ -67,7 +67,7 @@ function UserPanel(){
                                 >Next
                         </button>
                         <div className="userCards-slider-wrapper" style={{
-                            'transform':`translateX(-${property.id*(100/cityWeatherList.length-1)}%)`
+                            'transform':`translateX(-${property.id*(100/cityWeatherList.length)}%)`
                         }}>
                             {cityWeatherList.map(fde => <UserWeatherItem element={fde} />)}
                         </div>

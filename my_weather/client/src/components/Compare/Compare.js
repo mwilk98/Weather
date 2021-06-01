@@ -30,9 +30,9 @@ class Compare extends React.Component{
         .then(response => {
             const localTime = new Date().toLocaleString()
             console.log(response)
-            this.getWeatherWeatherApi(this.state.value)
-            this.getWeatherTommorowIo(response.coord.lat,response.coord.lon)
-            this.getWeatherVisualcrossing(this.state.value)
+            //this.getWeatherWeatherApi(this.state.value)
+            //this.getWeatherTommorowIo(response.coord.lat,response.coord.lon)
+            //this.getWeatherVisualcrossing(this.state.value)
             this.getWeatherWeatherbit(this.state.value)
             this.setState(state =>({
             city:state.value,
@@ -96,7 +96,7 @@ class Compare extends React.Component{
     }
     getWeatherTommorowIo = (lat,lon) =>{
             
-        fetch(`https://api.tomorrow.io/v4/timelines?location=${lat},${lon}&fields=temperature&timesteps=1h&units=metric&apikey=Xsa59kYGGrHiXs1TZ3cItU7zRZ4FfGQ8
+        fetch(`https://api.tomorrow.io/v4/timelines?location=${lat},${lon}&fields=temperature,humidity,windSpeed,cloudCover,weatherCode,pressureSurfaceLevel&timesteps=1d&units=metric&apikey=Xsa59kYGGrHiXs1TZ3cItU7zRZ4FfGQ8
         `)
         .then(response => {
             if(response.ok){
@@ -157,7 +157,7 @@ class Compare extends React.Component{
     } 
     getWeatherWeatherbit = (city) =>{
             
-        fetch(`https://api.weatherbit.io/v2.0/current?city=${city}&key=${API_key_w}&include=minutely
+        fetch(`https://api.weatherbit.io/v2.0/current?city=${city}&key=${API_key_w}
         `)
         .then(response => {
             if(response.ok){
