@@ -33,6 +33,41 @@ app.post('/api/insert',(req,res)=>{
     })
 })
 
+app.post('/api/register', (req,res)=>{
+
+
+  const username = req.body.username
+  const password = req.body.password
+
+  db.query("INSERT INTO users (username,password) VALUES (?,?)", [username,password],
+    (err,result)=>{
+      console.log(err)
+    }
+  )
+})
+
+app.post('/api/login', (req,res)=>{
+
+  const username = req.body.username
+  const password = req.body.password
+
+  db.query("SELECT * FROM users WHERE username = ? AND password = ?", [username,password],
+    (err,result)=>{
+      if(err){
+        res.send({err:err})
+      }else{
+        if(result.length>0){
+          res.send(result)
+        }else{
+          res.send({message:"No user found"})
+        }
+      }
+      
+    }
+  )
+
+})
+
 app.listen(3001,()=> {
     console.log('running on port 3001')
 })

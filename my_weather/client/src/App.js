@@ -6,6 +6,7 @@ import UserPanel from './components/UserPanel/UserPanel';
 import AirCondition from './components/AirCondition/AirCondition';
 import WeatherAlerts from './components/WeatherAlerts/WeatherAlerts';
 import Compare from './components/Compare/Compare'
+import SignUp from './components/SignUp/SignUp'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path='/air-condition' exact component={AirCondition}/>
         <Route path='/weather-alerts' exact component={WeatherAlerts}/>
         <Route path='/compare' exact component={Compare}/>
+        <Route path='/sign-up' exact component={SignUp}/>
       </Switch>
     </Router>
 

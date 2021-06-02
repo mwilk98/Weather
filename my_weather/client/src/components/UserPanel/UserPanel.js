@@ -4,11 +4,45 @@ import Axios from 'axios'
 import UserWeatherItem from './UserWeatherItem';
 
 function UserPanel(){
+
     const [cityName, setCityName] = useState('')
     const [weatherState, setWeatherState] = useState('')
+
     const [cityWeatherList, setcityWeatherList] = useState([])
     const [property, setProperty] = useState([])
-    
+
+    const [usernameReg, setUsernameReg] = useState('')
+    const [passwordReg, setPasswordReg] = useState('')
+
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+
+    const [loginStatus, setLoginStatus] = useState('')
+    console.log(loginStatus)
+
+    const register = () => {
+        Axios.post('http://localhost:3001/api/register',{
+            username:usernameReg,
+            password:passwordReg
+        }).then((response) =>{
+            console.log(response)
+        })
+    }
+
+    const login = () => {
+        Axios.post('http://localhost:3001/api/login',{
+            username:username,
+            password:password
+        }).then((response) =>{
+            console.log(response)
+            if(response.data.message){
+                setLoginStatus(response.data.message)
+                console.log(loginStatus)
+            }else{
+                setLoginStatus(response.data[0].username)
+            }
+        })
+    }
     useEffect(()=>{
         Axios.get('http://localhost:3001/api/get')
         .then((response)=>{
@@ -40,6 +74,7 @@ function UserPanel(){
         const newIndex = property.id-2
         setProperty(cityWeatherList[newIndex])
     }
+    if(loginStatus!="No user found"){
         return(
             <div className="main"style={{ 
                 backgroundImage: `url("/images/bg_myWeather.jpg")` 
@@ -82,5 +117,43 @@ function UserPanel(){
             </div>
             </div>
         )
+    }else{
+
+        return(
+            <div>
+            <div className="register">
+                <h1>Registration</h1>
+                <label>Username</label>
+                <input type="text" onChange={(e)=>{
+                    setUsernameReg(e.target.value)
+                    }}
+                />
+                <label>Password</label>
+                <input type="text" onChange={(e)=>{
+                    setPasswordReg(e.target.value)
+                    }}
+                />
+                <button onClick={register}>Register</button>
+            </div>
+            <div className="login">
+                <h1>Login</h1>
+                <label>Username</label>
+                <input type="text" onChange={(e)=>{
+                    setUsername(e.target.value)
+                    }}
+                />
+                <label>Password</label>
+                <input type="text" onChange={(e)=>{
+                    setPassword(e.target.value)
+                    }}
+                />
+                <button onClick={login}>Login</button>
+            </div>
+            <h1>
+                {loginStatus}
+            </h1>
+        </div>
+        )
+    }
 }
 export default UserPanel
