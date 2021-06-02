@@ -4,6 +4,8 @@ import CalDate from '../Functions/CalDate';
 import CalTime from '../Functions/CalTime';
 import CalCelsius from '../Functions/CalCelsius';
 import CalWindSpeed from '../Functions/CalWindSpeed';
+import CompareCurrentWeatherItem from './CompareCurrentWeatherItem'
+import './Compare.css';
 
 const API_key_OWM="157d33f8987d245bc6a1997408e90015"
 const API_key_WA = "d42d0d989ead4316b9d143558213105"
@@ -13,9 +15,27 @@ class Compare extends React.Component{
         super(props)
         this.state={
             value:"",
+            compareCurrentElements:[
+            ],
+            currentProperty:undefined,
             error:false
         }
     }
+    nextCurrentProperty = () => {
+        const newIndex = this.state.currentProperty.id +1
+        this.setState({
+            currentProperty: this.state.compareCurrentElements[newIndex]
+        })
+        console.log(newIndex)
+    }
+
+    prevCurrentProperty = () => {
+        const newIndex = this.state.currentProperty.id -1
+        this.setState({
+            currentProperty: this.state.compareCurrentElements[newIndex]
+        })
+    }
+
     getWeatherOpenweathermap = (e) =>{
         e.preventDefault()
             
@@ -28,34 +48,25 @@ class Compare extends React.Component{
         })
         .then(response => response.json())
         .then(response => {
-            const localTime = new Date().toLocaleString()
             console.log(response)
-            //this.getWeatherWeatherApi(this.state.value)
-            //this.getWeatherTommorowIo(response.coord.lat,response.coord.lon)
-            //this.getWeatherVisualcrossing(this.state.value)
+            this.getWeatherWeatherApi(this.state.value)
+            this.getWeatherTommorowIo(response.coord.lat,response.coord.lon)
+            this.getWeatherVisualcrossing(this.state.value)
             this.getWeatherWeatherbit(this.state.value)
-            this.setState(state =>({
-            city:state.value,
-            country:response.sys.country,
-            date:CalDate(response.dt),
-            time:CalTime(response.dt,response.timezone),
-            weather:response.weather[0].description,
-            temp:CalCelsius(response.main.temp),
-            tempMax:CalCelsius(response.main.temp_max),
-            tempMin:CalCelsius(response.main.temp_min),
-            tempFeel:CalCelsius(response.main.feels_like),
-            pressure:response.main.pressure,
-            wind:CalWindSpeed(response.wind.speed),
-            image:weatherIcons[response.weather[0].id],
-            lat:response.coord.lat,
-            lon:response.coord.lon,
-            clouds:response.clouds.all, 
-            humidity:response.main.humidity,
-            sunrise:CalTime(response.sys.sunrise,response.timezone),
-            sunset:CalTime(response.sys.sunset,response.timezone),
-            background:"/images/cloudyCity.jpg",
-            error:false
-            }))
+            this.setState({
+                compareCurrentElements:[...this.state.compareCurrentElements,{
+                    'id':1,
+                    'date':CalDate(response.dt),
+                    'weather':response.weather[0].description,
+                    'temp':CalCelsius(response.main.temp),
+                    'pressure':response.main.pressure,
+                    'wind':CalWindSpeed(response.wind.speed),
+                    'image':weatherIcons[0],
+                }],
+            })
+            this.setState({
+                currentProperty:this.state.compareCurrentElements[0]
+            }) 
         })
         .catch(err =>{
         console.log(err)
@@ -78,12 +89,18 @@ class Compare extends React.Component{
         })
         .then(response => response.json())
         .then(response => {
-            const localTime = new Date().toLocaleString()
             console.log(response)
-            this.setState(state =>({
-            city:state.value,
-            error:false
-            }))
+            this.setState({
+                compareCurrentElements:[...this.state.compareCurrentElements,{
+                    'id':2,
+                    'date':response.current.last_updated,
+                    'weather':response.current.condition.text,
+                    'temp':response.current.temp_c,
+                    'pressure':response.current.pressure_mb,
+                    'wind':response.current.wind_kph,
+                    'image':weatherIcons[0],
+                }],
+            })
         })
         .catch(err =>{
         console.log(err)
@@ -106,12 +123,18 @@ class Compare extends React.Component{
         })
         .then(response => response.json())
         .then(response => {
-            const localTime = new Date().toLocaleString()
             console.log(response)
-            this.setState(state =>({
-            city:state.value,
-            error:false
-            }))
+            this.setState({
+                compareCurrentElements:[...this.state.compareCurrentElements,{
+                    'id':3,
+                    'date':response.data.timelines[0].startTime,
+                    'weather':response.data.timelines[0].intervals[0].values.weatherCode,
+                    'temp':response.data.timelines[0].intervals[0].values.temperature,
+                    'pressure':response.data.timelines[0].intervals[0].values.pressureSurfaceLevel,
+                    'wind':CalWindSpeed(response.data.timelines[0].intervals[0].values.windSpeed),
+                    'image':weatherIcons[0],
+                }],
+            })
         })
         .catch(err =>{
         console.log(err)
@@ -139,12 +162,18 @@ class Compare extends React.Component{
         })
         .then(response => response.json())
         .then(response => {
-            const localTime = new Date().toLocaleString()
             console.log(response)
-            this.setState(state =>({
-            city:state.value,
-            error:false
-            }))
+            this.setState({
+                compareCurrentElements:[...this.state.compareCurrentElements,{
+                    'id':4,
+                    'date':response.location.currentConditions.datetime,
+                    'weather':response.location.currentConditions.icon,
+                    'temp':response.location.currentConditions.temp,
+                    'pressure':response.location.currentConditions.sealevelpressure,
+                    'wind':response.location.currentConditions.wspd,
+                    'image':weatherIcons[0],
+                }],
+            })
         })
         .catch(err =>{
         console.log(err)
@@ -156,8 +185,10 @@ class Compare extends React.Component{
     })
     } 
     getWeatherWeatherbit = (city) =>{
+
+        this.state.compareCurrentElements.length=0
             
-        fetch(`https://api.weatherbit.io/v2.0/current?city=${city}&key=${API_key_w}
+        fetch(` https://api.weatherbit.io/v2.0/forecast/daily?city=${city}&key=${API_key_w}
         `)
         .then(response => {
             if(response.ok){
@@ -167,12 +198,18 @@ class Compare extends React.Component{
         })
         .then(response => response.json())
         .then(response => {
-            const localTime = new Date().toLocaleString()
             console.log(response)
-            this.setState(state =>({
-            city:state.value,
-            error:false
-            }))
+            this.setState({
+                compareCurrentElements:[...this.state.compareCurrentElements,{
+                    'id':5,
+                    'date':response.data[0].ob_time,
+                    'weather':response.data[0].weather.description,
+                    'temp':response.data[0].app_temp,
+                    'pressure':response.data[0].pres,
+                    'wind':20*response.data[0].wind_spd,
+                    'image':weatherIcons[0],
+                }],
+            })
         })
         .catch(err =>{
         console.log(err)
@@ -186,13 +223,23 @@ class Compare extends React.Component{
     render(){
         return(
             <div>
-                PORÓWNAJ PROGNOZY
                 <div className="city-form">
                 <Form 
                 value={this.state.value}  
                 handler={this.inputHandler}
                 submit={this.getWeatherOpenweathermap}
                 /> 
+                </div>
+                <div className="compare-main-cards">
+                    {this.state.currentProperty ?( 
+                    <div className="compare-cards-slider">
+                        <div className="compare-cards-slider-wrapper" style={{
+                            'transform':`translateX(-${this.state.currentProperty.id*(100/this.state.compareCurrentElements.length)}%)`
+                        }}>
+                            {this.state.compareCurrentElements.map(fde => <CompareCurrentWeatherItem key={fde.id} element={fde} />)}
+                        </div>
+                    </div>
+                    ):null}
                 </div>
             </div>
 
