@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import './UserPanel.css';
 import Axios from 'axios'
 import UserWeatherItem from './UserWeatherItem';
+import {Link} from 'react-router-dom'
 
 function UserPanel(){
 
@@ -20,38 +21,22 @@ function UserPanel(){
     const [loginStatus, setLoginStatus] = useState('')
     console.log(loginStatus)
 
-    const register = () => {
-        Axios.post('http://localhost:3001/api/register',{
-            username:usernameReg,
-            password:passwordReg
-        }).then((response) =>{
-            console.log(response)
-        })
-    }
-
-    const login = () => {
-        Axios.post('http://localhost:3001/api/login',{
-            username:username,
-            password:password
-        }).then((response) =>{
-            console.log(response)
-            if(response.data.message){
-                setLoginStatus(response.data.message)
-                console.log(loginStatus)
+   
+    useEffect(()=>{
+        Axios.get('http://localhost:3001/api/login').then((response)=>{
+            if(response.data.loggedIn==true){
+                setLoginStatus(response.data.user[0].username)
+                console.log(response)
             }else{
-                setLoginStatus(response.data[0].username)
+                setLoginStatus("unlogged")
             }
         })
-    }
-    useEffect(()=>{
         Axios.get('http://localhost:3001/api/get')
         .then((response)=>{
             setcityWeatherList(response.data)
             setProperty(response.data[0])
         })
-
     },[])
-    
     const submitWeather = () =>{
 
         Axios.post('http://localhost:3001/api/insert',{
@@ -74,7 +59,7 @@ function UserPanel(){
         const newIndex = property.id-2
         setProperty(cityWeatherList[newIndex])
     }
-    if(loginStatus!="No user found"){
+    if(loginStatus!="unlogged"){
         return(
             <div className="main"style={{ 
                 backgroundImage: `url("/images/bg_myWeather.jpg")` 
@@ -118,41 +103,12 @@ function UserPanel(){
             </div>
         )
     }else{
-
         return(
-            <div>
-            <div className="register">
-                <h1>Registration</h1>
-                <label>Username</label>
-                <input type="text" onChange={(e)=>{
-                    setUsernameReg(e.target.value)
-                    }}
-                />
-                <label>Password</label>
-                <input type="text" onChange={(e)=>{
-                    setPasswordReg(e.target.value)
-                    }}
-                />
-                <button onClick={register}>Register</button>
-            </div>
-            <div className="login">
-                <h1>Login</h1>
-                <label>Username</label>
-                <input type="text" onChange={(e)=>{
-                    setUsername(e.target.value)
-                    }}
-                />
-                <label>Password</label>
-                <input type="text" onChange={(e)=>{
-                    setPassword(e.target.value)
-                    }}
-                />
-                <button onClick={login}>Login</button>
-            </div>
-            <h1>
-                {loginStatus}
-            </h1>
-        </div>
+            <div><h1>Musisz być zalogowanym aby korzystać z tej funkcji</h1>
+            <Link to='/sign-up'>
+                Zaloguj
+            </Link>
+            </div> 
         )
     }
 }

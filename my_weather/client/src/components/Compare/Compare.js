@@ -17,6 +17,7 @@ class Compare extends React.Component{
             value:"",
             compareCurrentElements:[
             ],
+            source:"OpenWeatherMap",
             currentProperty:undefined,
             error:false
         }
@@ -28,6 +29,17 @@ class Compare extends React.Component{
         })
         console.log(newIndex)
     }
+    setOpenWeatherMap = () => {
+        this.setState({
+            source:"OpenWeatherMap"
+        })
+    }
+    setWeatherApi = () => {
+        this.setState({
+            source:"WeatherApi"
+        })
+    }
+
 
     prevCurrentProperty = () => {
         const newIndex = this.state.currentProperty.id -1
@@ -221,8 +233,8 @@ class Compare extends React.Component{
     })
     }  
     render(){
-        return(
-            <div>
+        if(this.state.source=="OpenWeatherMap"){
+            return( <div>
                 <div className="city-form">
                 <Form 
                 value={this.state.value}  
@@ -230,6 +242,14 @@ class Compare extends React.Component{
                 submit={this.getWeatherOpenweathermap}
                 /> 
                 </div>
+                <button 
+                onClick={() => this.setOpenWeatherMap()} 
+                >OpenWeatherMap
+                </button>
+                <button 
+                onClick={() => this.setWeatherApi()} 
+                >OpenWeatherMap
+                </button>
                 <div className="compare-main-cards">
                     {this.state.currentProperty ?( 
                     <div className="compare-cards-slider">
@@ -242,9 +262,29 @@ class Compare extends React.Component{
                     ):null}
                 </div>
             </div>
-
+            )
+        }else{
+            return(
+                <div>
+                    <div className="city-form">
+                    <Form 
+                    value={this.state.value}  
+                    handler={this.inputHandler}
+                    submit={this.getWeatherOpenweathermap}
+                    /> 
+                    </div>
+                    <button 
+                    onClick={() => this.setOpenWeatherMap()} 
+                    >OpenWeatherMap
+                    </button>
+                    <button 
+                    onClick={() => this.setWeatherApi()} 
+                    >OpenWeatherMap
+                    </button>
+                </div>
+            )
+        }
         
-        )
     }
 }
 const weatherIcons = {

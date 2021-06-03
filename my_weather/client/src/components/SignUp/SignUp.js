@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import Axios from 'axios'
 import UserPanel from '../UserPanel/UserPanel'
 import {Link} from 'react-router-dom'
@@ -12,6 +12,8 @@ function SignUp(){
     const [password, setPassword] = useState('')
 
     const [loginStatus, setLoginStatus] = useState('')
+
+    Axios.defaults.withCredentials = true
 
     const register = () => {
         Axios.post('http://localhost:3001/api/register',{
@@ -35,14 +37,15 @@ function SignUp(){
             }
         })
     }
-    if(loginStatus!="No user found"){
-        return(
-            <Link to='my-weather'>
-            <button className='btn'>Zaloguj</button>
-            </Link>
-        )
-    }else{
 
+    useEffect(()=>{
+        Axios.get('http://localhost:3001/api/login').then((response)=>{
+            if(response.data.loggedIn==true){
+                setLoginStatus(response.data.user[0].username)
+                console.log(response)
+            }
+        })
+    },[])
         return(
             <div>
             <div className="register">
@@ -75,9 +78,11 @@ function SignUp(){
             </div>
             <h1>
                 {loginStatus}
+                <Link to='/my-weather'>
+                Powrót
+                </Link>
             </h1>
         </div>
         )
     }
-}
 export default SignUp
