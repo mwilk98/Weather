@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 const WeatherItem = props => {
     const{
         city,
@@ -17,6 +18,8 @@ const WeatherItem = props => {
         humidity,
         sunrise,
         sunset,
+        aqi,
+        color,
         background,
         error} = props.weather
 
@@ -44,6 +47,11 @@ const WeatherItem = props => {
                                 <p><img src={weatherIcons[5]} width="20" height="20" />max:{tempMax}&deg; <img src={weatherIcons[5]} width="20" height="20" />min:{tempMin}&deg;</p>  
                                 <p><img src={weatherIcons[6]} width="20" height="20" />{pressure} hPa</p>  
                                 <p><img src={weatherIcons[7]} width="20" height="20" />{wind}km/h</p>
+                                <p>Jakość powietrza:<p className="aqi" style={{ 
+                                                    color: conditionColors[color]
+                                                    }}> {aqi} <Link to='/air-condition' >
+                                                                                Sczegłóły
+                                                                                </Link></p></p>
                             </div>
                         </div>
                 </div>
@@ -63,5 +71,12 @@ const WeatherItem = props => {
         5:'/images/temp.webp',
         6:'/images/pressure.png',
         7:'/images/wind.png',
+    }
+    const conditionColors = {
+        1:'green',
+        2:'lightgreen',
+        3:'yellow',
+        4:'red',
+        5:'purple',
     }
 export default WeatherItem

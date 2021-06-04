@@ -15,8 +15,6 @@ class AirCondition extends React.Component{
         value:"",
         city:"",
         country:"",
-        lat:undefined,
-        lon:undefined,
         aqi:undefined,
         co:undefined,
         nh3:undefined,
@@ -45,16 +43,27 @@ class AirCondition extends React.Component{
           .then(response => {
               const localTime = new Date().toLocaleString()
               console.log(response)
+              this.getAirQuality(response.coord.lat,response.coord.lon)
               this.setState(state =>({
                 city:state.value,
                 country:response.sys.country,
                 date:CalDate(response.dt),
-                time:CalTime(response.dt,response.timezone),
-                lat:response.coord.lat,
-                lon:response.coord.lon, 
+                time:CalTime(response.dt,response.timezone), 
                 error:false
               }))
-              fetch(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${response.coord.lat}&lon=${response.coord.lon}&appid=${API_key}`)
+
+          })
+          .catch(err =>{
+            console.log(err)
+            this.setState(prevState =>{
+                return{
+                error:true,
+                city:prevState.city
+            }})
+        })
+    }
+    getAirQuality(lat,lon){
+        fetch(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_key}`)
           .then(response2 => {
               if(response2.ok){
                   return response2
@@ -65,7 +74,7 @@ class AirCondition extends React.Component{
           .then(response2 => {
               console.log(response2)
               this.setState(state =>({
-                aqi:response2.list[0].main.aqi,
+                aqi:airConditions[ response2.list[0].main.aqi],
                 co:response2.list[0].components.co,
                 nh3:response2.list[0].components.nh3,
                 no:response2.list[0].components.no,
@@ -74,17 +83,9 @@ class AirCondition extends React.Component{
                 pm2_5:response2.list[0].components.pm2_5,
                 pm10:response2.list[0].components.pm10,
                 so2:response2.list[0].components.so2,
+                color:response2.list[0].main.aqi,
                 error:false
               }))
-          })
-          .catch(err =>{
-            console.log(err)
-            this.setState(prevState =>{
-                return{
-                error:true,
-                city:prevState.city
-            }})
-        })
           })
           .catch(err =>{
             console.log(err)
@@ -110,6 +111,7 @@ class AirCondition extends React.Component{
                 backgroundImage: `url("/images/bg_air.jpg")` 
               }}>
                 <div className="city-form">
+                <h1>Wyszukaj miasto dla którego chcesz sprawdzić obecny stan powietrza</h1>
                 <Form 
                 value={this.state.value}  
                 handler={this.inputHandler}
@@ -127,5 +129,12 @@ class AirCondition extends React.Component{
             
         )
     }
+}
+const airConditions = {
+    1:'Bardzo dobra',
+    2:'Dobra',
+    3:'Średnia',
+    4:'Zła',
+    5:'Bardzo zła',
 }
 export default AirCondition

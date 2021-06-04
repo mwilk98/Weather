@@ -1,6 +1,8 @@
 .main{
 min-height: 1080px;
 }
+
+
 .weatherCard{
     width: 100%;
     position: relative;
@@ -29,12 +31,12 @@ min-height: 1080px;
     
 }
 .weatherCard .card:hover .face.face1{
-    background: #ff0057;
+    background: #0c6bd1;
     transform: translateY(0);
     
 }
 .weatherCard .card .face.face1 .content{
-    opacity: 0.2;
+    opacity: 1;
     transition: 0.5s;
     
 }
@@ -76,16 +78,34 @@ min-height: 1080px;
     padding: 5px;
     border: 1px solid #333;
 }
+.weatherCard .card .face.face2 .content p.aqi{
+    margin: 0;
+    padding: 0;
+    color: blue;
+}
 .weatherCard .card .face.face2 .content a:hover{
-    background: #333;
+    background: rgb(228, 27, 27);
     color: #fff;
 }
 .weatherCard p{
     text-align: center;
 }
+
 .city-form{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+.city-form input{
+    width: 300px;
+    height: 60px;
+    margin: 10px;
+    font-size: 25px;
+}
+.city-form h1{
+    color: #fff;
+}
+.city-form button{
+    font-size: 30px;
 }

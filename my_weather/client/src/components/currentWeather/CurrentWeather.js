@@ -20,6 +20,7 @@ class CurrentWeather extends React.Component{
             value:"",
             city:"",
             country:"",
+            aqi:undefined,
             image:undefined,
             background:undefined,
             weather:undefined,
@@ -42,6 +43,7 @@ class CurrentWeather extends React.Component{
             ],
             dailyProperty: undefined,
             hourlyProperty: undefined,
+            forecast:true,
             error:false
         }
     }
@@ -88,6 +90,9 @@ class CurrentWeather extends React.Component{
           })
           .then(response => response.json())
           .then(response => {
+            this.getForecastDaily(response.coord.lat,response.coord.lon)
+            this.getForecastHourly(response.coord.lat,response.coord.lon)
+            this.getAirQuality(response.coord.lat,response.coord.lon)
               const localTime = new Date().toLocaleString()
               console.log(response)
               this.setState(state =>({
@@ -139,6 +144,7 @@ class CurrentWeather extends React.Component{
               console.log(response)
               this.getForecastDaily(response.coord.lat,response.coord.lon)
               this.getForecastHourly(response.coord.lat,response.coord.lon)
+              this.getAirQuality(response.coord.lat,response.coord.lon)
               this.setState(state =>({
                 city:state.value,
                 country:response.sys.country,
@@ -172,6 +178,32 @@ class CurrentWeather extends React.Component{
         })
         
     }
+    getAirQuality(lat,lon){
+        fetch(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_key}`)
+          .then(response2 => {
+              if(response2.ok){
+                  return response2
+              }
+              throw Error("Błąd pobierania danych z API")
+          })
+          .then(response2 => response2.json())
+          .then(response2 => {
+              console.log(response2)
+              this.setState(state =>({
+                aqi:airConditions[response2.list[0].main.aqi],
+                color:response2.list[0].main.aqi,
+                error:false
+              }))
+          })
+          .catch(err =>{
+            console.log(err)
+            this.setState(prevState =>{
+                return{
+                error:true,
+                city:prevState.city
+            }})
+        })
+    }
     getForecastDaily = (lat,lon)=>{
 
         console.log(lat)
@@ -193,15 +225,19 @@ class CurrentWeather extends React.Component{
                         'id':i,
                         'date':CalDate(response.daily[i].dt),
                         'weather':response.daily[i].weather[0].description,
-                        'temp':CalCelsius(response.daily[i].temp.day),
+                        'tempMax':CalCelsius(response.daily[i].temp.max),
+                        'tempMin':CalCelsius(response.daily[i].temp.min),
                         'pressure':response.daily[i].pressure,
                         'wind':CalWindSpeed(response.daily[i].wind_speed),
                         'image':weatherIcons[response.daily[i].weather[0].id],
-                        'background':"/images/download.gif",
+                        'clouds':response.daily[i].clouds,
+                        'humidity':response.daily[i].humidity,
+                        'sunrise':CalTime(response.daily[i].sunrise,response.timezone_offset) ,
+                        'sunset':CalTime(response.daily[i].sunset,response.timezone_offset)
                     }],
-                    dailyProperty:this.state.forecastDailyElements[0]
+                    dailyProperty:this.state.forecastDailyElements[1]
                 })
-            }   
+            }  
           })
     }
     getForecastHourly = (lat,lon)=>{
@@ -227,11 +263,14 @@ class CurrentWeather extends React.Component{
                         'time':CalTime(response.hourly[i].dt,response.timezone_offset),
                         'weather':response.hourly[i].weather[0].description,
                         'temp':CalCelsius(response.hourly[i].temp),
+                        'tempFeel':CalCelsius(response.hourly[i].feels_like),
                         'pressure':response.hourly[i].pressure,
+                        'humidity':response.hourly[i].humidity,
                         'wind':CalWindSpeed(response.hourly[i].wind_speed),
                         'image':weatherIcons[response.hourly[i].weather[0].id],
+                        'clouds':response.hourly[i].clouds,
                     }],
-                    hourlyProperty:this.state.forecastHourlyElements[0]
+                    hourlyProperty:this.state.forecastHourlyElements[1]
                 })
             }
           })
@@ -244,69 +283,119 @@ class CurrentWeather extends React.Component{
     componentDidMount(){
         this.defaultWeather("Warszawa")
      }
+    setForecast=()=>{
+        if(this.state.forecast){
+            this.setState({
+                forecast:false
+            })
+        }else{
+            this.setState({
+                forecast:true
+            })
+        }
+    }
     render(){
         const {forecastDailyElements, forecastHourlyElements, dailyProperty, hourlyProperty}=this.state
-        return(
-            <div className="main" style={{ 
-                backgroundImage: `url("/images/bg.jpg")` 
-              }}>
-                <div className="city-form">
-                <Form 
-                value={this.state.value}  
-                handler={this.inputHandler}
-                submit={this.getWeather}
-                /> 
-                </div> 
-                <div>
-                {this.state.city ?(
-                    <WeatherItem weather={this.state}/>   
-                ):null}
-                </div>
-                <div className="main-cards">
-                    {dailyProperty ?( 
-                    <div className="cards-slider">
-                        <button className="left" 
+        if(this.state.forecast){
+            return(
+                    <div className="main" style={{ 
+                        backgroundImage: `url("/images/bg.jpg")` 
+                    }}>
+                        <div className="city-form">
+                            <h1>Wyszukaj miasto dla którego chcesz sprawdzić obecne warunki pogodowe oraz prognozy pogody</h1>
+                            <Form 
+                                value={this.state.value}  
+                                handler={this.inputHandler}
+                                submit={this.getWeather}
+                            /> 
+                        </div> 
+                        <div className="current-main">
+                            {this.state.city ?(
+                            <WeatherItem weather={this.state}/>   
+                            ):null}
+                        </div>
+                    <div className="forecast-main">
+                        {dailyProperty ?( 
+                        <div className="forecast-cards">
+                            <button className="left" 
                                 onClick={() => this.nextdailyProperty()} 
-                                disabled={dailyProperty.id === forecastDailyElements.length-1}
-                                >Next
-                        </button>
-                        <div className="cards-slider-wrapper" style={{
-                            'transform':`translateX(-${dailyProperty.id*(100/forecastDailyElements.length)}%)`
-                        }}>
-                            {forecastDailyElements.map(fde => <ForecastDailyItem key={fde.id} element={fde} />)}
+                                disabled={dailyProperty.id === forecastDailyElements.length-3}
+                            >Next
+                            </button>
+                            <button className="swap-button"
+                                onClick={() => this.setForecast()} 
+                            >GODZINOWA
+                            </button>
+                            <button className="right"
+                                    onClick={() => this.prevdailyProperty()} 
+                                    disabled={dailyProperty.id === 1}
+                            >Prev
+                            </button>
+                            <div className="main-cards">  
+                                <div className="cards-slider">         
+                                    <div className="cards-slider-wrapper" style={{
+                                                                            'transform':`translateX(-${dailyProperty.id*(100/forecastDailyElements.length)}%)`
+                                    }}>
+                                        {forecastDailyElements.map(fde => <ForecastDailyItem key={fde.id} element={fde} />)}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <button className="right"
-                                onClick={() => this.prevdailyProperty()} 
-                                disabled={dailyProperty.id === 0}
-                        >Prev
-                        </button>
-                    </div>
                     ):null}
-                </div>
-                <div className="main-cards">
+                    </div>
+                    </div>
+            )
+        }else{
+            return(
+                <div className="main" style={{ 
+                    backgroundImage: `url("/images/bg.jpg")` 
+                }}>
+                    <div className="city-form">
+                        <h1>Wyszukaj miasto dla którego chcesz sprawdzić obecne warunki pogodowe oraz prognozy pogody</h1>
+                        <Form 
+                            value={this.state.value}  
+                            handler={this.inputHandler}
+                            submit={this.getWeather}
+                        /> 
+                    </div> 
+                    <div className="current-main">
+                        {this.state.city ?(
+                        <WeatherItem weather={this.state}/>   
+                        ):null}
+                    </div>
+                <div className="forecast-main">
                     {hourlyProperty ?( 
-                    <div className="cards-slider">
+                    <div className="forecast-cards">
                         <button className="left" 
-                                onClick={() => this.nextHourlyProperty()} 
-                                disabled={hourlyProperty.id === forecastHourlyElements.length-1}
-                                >Next
+                            onClick={() => this.nextHourlyProperty()} 
+                            disabled={hourlyProperty.id === forecastHourlyElements.length-3}
+                        >Next
                         </button>
-                        <div className="cards-slider-wrapper" style={{
-                            'transform':`translateX(-${hourlyProperty.id*(100/forecastHourlyElements.length)}%)`
-                        }}>
-                            {forecastHourlyElements.map(fde => <ForecastHourlyItem key={fde.id} element={fde} />)}
-                        </div>
+                        <button className="swap-button"
+                            onClick={() => this.setForecast()} 
+                        >DZIENNA
+                        </button>
                         <button className="right"
                                 onClick={() => this.prevHourlyProperty()} 
-                                disabled={hourlyProperty.id === 0}
+                                disabled={hourlyProperty.id === 1}
                         >Prev
                         </button>
+                        <div className="main-cards">  
+                            <div className="cards-slider">         
+                                <div className="cards-slider-wrapper" style={{
+                                                                        'transform':`translateX(-${hourlyProperty.id*(100/forecastHourlyElements.length)}%)`
+                                }}>
+                                    {forecastHourlyElements.map(fde => <ForecastHourlyItem key={fde.id} element={fde} />)}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    ):null}
+                ):null}
                 </div>
-            </div>
+                </div>
+            )
+        }
         
-        )
     }
 }
 const weatherIcons = {
@@ -365,5 +454,12 @@ const weatherIcons = {
     802:'/images/clouds.png',
     803:'/images/clouds.png',
     804:'/images/clouds.png',
+}
+const airConditions = {
+    1:'Bardzo dobra',
+    2:'Dobra',
+    3:'Średnia',
+    4:'Zła',
+    5:'Bardzo zła',
 }
 export default CurrentWeather
