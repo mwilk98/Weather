@@ -4,9 +4,4 @@ export const MenuItems = [
         path: '/air-condition',
         cName: 'dropdown-link'
     },
-    {
-        title: 'Alerty pogodowe',
-        path: '/weather-alerts',
-        cName: 'dropdown-link'
-    },
 ]
