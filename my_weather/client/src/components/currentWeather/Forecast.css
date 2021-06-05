@@ -13,29 +13,20 @@
   margin-top: 0%;
   margin-left: 0%;
 }
-  .cards-slider-wrapper .card {
+.cards-slider-wrapper .card {
     min-width: 200px;
     transform: scale(0.9);
   }
-    .cards-slider-wrapper .card .details {
+.cards-slider-wrapper .card .details {
       opacity: 0;
-    }
+}
     
 .cards-slider {
   position: relative;
   width: 500px;
   margin: 0 auto; 
 }
-  .cards-slider button.left{
-    position:absolute;
-    margin-top: 78%;
-    margin-left: 55%;
-  }
-  .cards-slider button.right{
-    position:absolute;
-    margin-top: 78%;
-    margin-left: 61%;
-  }
+
 .forecast-main{
   width: 100%;
   height: 100%;

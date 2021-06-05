@@ -24,7 +24,6 @@ const WeatherItem = props => {
         error} = props.weather
 
         let content = null
-        
 
         if(!error && city){
             content = (

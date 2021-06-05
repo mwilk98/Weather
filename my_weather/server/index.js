@@ -55,10 +55,28 @@ app.get('/api/get', (req,res)=>{
 app.post('/api/insert',(req,res)=>{
 
     const cityName = req.body.cityName
+    const date = req.body.date
+    const time = req.body.time
     const weatherState = req.body.weatherState
+    const temp = req.body.temp
+    const clouds = req.body.clouds
+    const humidity = req.body.humidity
+    const pressure = req.body.pressure
+    const wind = req.body.wind
+    const aqi = req.body.aqi
 
-    const sqlInsert= "INSERT INTO my_weather (city,weather) VALUES(?,?)"
-    db.query(sqlInsert,[cityName, weatherState], (err,res)=>{
+    const sqlInsert= "INSERT INTO my_weather (city,date,time,weather,temp,clouds,humidity,pressure,wind,aqi) VALUES(?,?,?,?,?,?,?,?,?,?)"
+    db.query(sqlInsert,[cityName,
+                        date,
+                        time,
+                        weatherState,
+                        temp,
+                        clouds,
+                        humidity,
+                        pressure,
+                        wind,
+                        aqi
+                       ], (err,res)=>{
       console.log(res)
     })
 })

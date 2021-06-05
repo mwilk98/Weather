@@ -1,6 +1,3 @@
-.main{
-
-}
 .user-panel{
     text-align: center;
 }
@@ -13,18 +10,8 @@
 .user-form input{
     width: 200px;
     height: 30px;
-    margin: 10px;
+    margin: 5px;
     font-size: 25px;
-}
-.card3{
-    padding: 10px;
-    border: 1px solid #cdcdcd;
-    margin: 10px;
-    display: inline-block;
-}
-.card4{
-    overflow:scroll;
-    white-space: nowrap;
 }
 .userCard{
     width: 100%;
@@ -125,18 +112,20 @@
         opacity: 0;
       }
       
-  .userCards-slider {
+.userCards-slider {
     position: relative;
     width: 500px;
     margin: 0 auto; 
-  }
-    .userCards-slider button.left{
+}
+.user-cards button.left{
       position:absolute;
-      margin-top: 78%;
-      margin-left: 55%;
-    }
-    .userCards-slider button.right{
-      position:absolute;
-      margin-top: 78%;
-      margin-left: 61%;
-    }
+  margin-left: 5%;
+  margin-top: 0px;
+  height: 400px;
+}
+.user-cards button.right{
+    position:absolute;
+    margin-left: 90%;
+    margin-top: 0px;
+    height: 400px;
+}
