@@ -2,6 +2,7 @@ import React,{useEffect, useState} from 'react'
 import Axios from 'axios'
 import UserPanel from '../UserPanel/UserPanel'
 import {Link} from 'react-router-dom'
+import './SignUp.css'
 
 function SignUp(){
 
@@ -12,6 +13,10 @@ function SignUp(){
     const [password, setPassword] = useState('')
 
     const [loginStatus, setLoginStatus] = useState('')
+
+    const [x, setX] = useState('')
+    const [y, setY] = useState('')
+    const [z, setZ] = useState('')
 
     Axios.defaults.withCredentials = true
 
@@ -31,13 +36,22 @@ function SignUp(){
         }).then((response) =>{
             console.log(response)
             if(response.data.message){
-                setLoginStatus(response.data.message)
+                setLoginStatus("unlogged")
             }else{
-                setLoginStatus(response.data[0].username)
+                setLoginStatus("logged")
             }
         })
     }
-
+    const registerBtn = () =>{
+        setX("-400")
+        setY("-400")
+        setZ("110")
+    }
+    const loginBtn = () =>{
+        setX("0")
+        setY("450")
+        setZ("0")
+    }
     useEffect(()=>{
         Axios.get('http://localhost:3001/api/login').then((response)=>{
             if(response.data.loggedIn==true){
@@ -47,42 +61,55 @@ function SignUp(){
         })
     },[])
         return(
-            <div>
-            <div className="register">
-                <h1>Registration</h1>
-                <label>Username</label>
-                <input type="text" onChange={(e)=>{
-                    setUsernameReg(e.target.value)
-                    }}
-                />
-                <label>Password</label>
-                <input type="text" onChange={(e)=>{
-                    setPasswordReg(e.target.value)
-                    }}
-                />
-                <button onClick={register}>Register</button>
-            </div>
-            <div className="login">
-                <h1>Login</h1>
-                <label>Username</label>
-                <input type="text" onChange={(e)=>{
-                    setUsername(e.target.value)
-                    }}
-                />
-                <label>Password</label>
-                <input type="text" onChange={(e)=>{
-                    setPassword(e.target.value)
-                    }}
-                />
-                <button onClick={login}>Login</button>
-            </div>
-            <h1>
+            <div className="hero">
+                <div className="form-box">
+                    <div className="button-box">
+                        <div className="btn"style={{
+                                                    'transform':`translateX(${z}px)`
+                                }}></div>
+                        <button type="button" className="toggle-btn" onClick={() => loginBtn()}>Log In</button>
+                        <button type="button" className="toggle-btn" onClick={() => registerBtn()}>Register</button>
+                    </div>
+                    <div className="login-input-group" style={{
+                                                        'transform':`translateX(${x}px)`
+                                }}>
+                        <input type="text" className="input-field" placeholder="Nazwa Użytkownika" 
+                        onChange={(e)=>{
+                            setUsername(e.target.value)
+                            }}
+                        />
+                        <input type="text" className="input-field" placeholder="Hasło" 
+                        onChange={(e)=>{
+                            setPassword(e.target.value)
+                        }}
+                         />
+                        <input type="checkbox" className="check-box"/><span>Zapamietaj hasło</span>
+                        <button className="submit-btn" onClick={login}>Zaloguj </button>
+                    </div>
+                    <div className="register-input-group"style={{
+                                                        'transform':`translateX(${y}px)`
+                                }}>
+                        <input type="text" className="input-field" placeholder="Nazwa Użytkownika" required 
+                        onChange={(e)=>{
+                            setUsernameReg(e.target.value)
+                            }}
+                        />
+                        <input type="email" className="input-field" placeholder="email" required/>
+                        <input type="text" className="input-field" placeholder="Hasło" required
+                        onChange={(e)=>{
+                            setPasswordReg(e.target.value)
+                            }}
+                        />
+                        <button type="submit" className="submit-btn" onClick={register}>Zarejestruj</button>
+                    </div>
+                </div>   
+                 <h1>
                 {loginStatus}
                 <Link to='/my-weather'>
                 Powrót
                 </Link>
-            </h1>
-        </div>
-        )
+            </h1> 
+            </div>
+        )   
     }
 export default SignUp

@@ -71,11 +71,42 @@ function UserPanel(){
                     <input type="text" name="cityName" onChange={(e)=>{
                         setCityName(e.target.value)
                     }}/>
+                    <label>Data</label>
+                    <input type="text" name="weather"onChange={(e)=>{
+                        setWeatherState(e.target.value)
+                    }}/>
+                    <label>Godzina</label>
+                    <input type="text" name="weather"onChange={(e)=>{
+                        setWeatherState(e.target.value)
+                    }}/>
                     <label>Pogoda</label>
                     <input type="text" name="weather"onChange={(e)=>{
                         setWeatherState(e.target.value)
                     }}/>
-
+                    <label>Temperatura</label>
+                    <input type="text" name="weather"onChange={(e)=>{
+                        setWeatherState(e.target.value)
+                    }}/>
+                    <label>Zachmurzenie</label>
+                    <input type="text" name="weather"onChange={(e)=>{
+                        setWeatherState(e.target.value)
+                    }}/>
+                    <label>Wilgotność</label>
+                    <input type="text" name="weather"onChange={(e)=>{
+                        setWeatherState(e.target.value)
+                    }}/>
+                    <label>Ciśnienie</label>
+                    <input type="text" name="weather"onChange={(e)=>{
+                        setWeatherState(e.target.value)
+                    }}/>
+                    <label>Wiatr</label>
+                    <input type="text" name="weather"onChange={(e)=>{
+                        setWeatherState(e.target.value)
+                    }}/>
+                    <label>Jakość powietrza</label>
+                    <input type="text" name="weather"onChange={(e)=>{
+                        setWeatherState(e.target.value)
+                    }}/>
                     <button onClick={submitWeather}>Dodaj</button>
                 </div>
                 <div className="main-cards">
