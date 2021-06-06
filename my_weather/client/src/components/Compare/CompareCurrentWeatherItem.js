@@ -1,23 +1,26 @@
 import React from 'react'
 
-const CompareCurrentWeatherItem=({element})=>{
-    const {id,date,image,background,weather,temp,pressure,wind} = element;
+const CompareCurrentWeatherItem=({element, compare })=>{
+    const {id,date,image,background,weather,temp,pressure,wind,source} = element;
+    const{weatherComp,tempComp,pressureComp,windComp} = compare
+
     return ( 
         <div className="compareCard">
             <div className="card" >
                 <div className="face face1">
                     <div className="content">
-                        <h3>DZIENNA:</h3>
+                        <h3>{source}</h3>
                         <p>{date}</p>
                         <p><img src={image} width="100" height="100" /></p>
-                        <p>{weather} </p>
+                        <h3>{weather} </h3>
+                        <h3>({weatherComp})</h3>
                     </div>
                 </div>
                 <div className="face face2">
                     <div className="content">
-                        <p>Temperatura: {temp}&deg;</p>
-                        <p>Ciśnienie: {pressure} hPa</p> 
-                        <p>Wiatr: {wind} km/h</p>
+                        <p>Temperatura: {temp}&deg; ({tempComp}&deg;)</p>
+                        <p>Ciśnienie: {pressure} hPa ({pressureComp}hPa)</p> 
+                        <p>Wiatr: {wind} km/h ({windComp} km/h)</p>
                     </div>
                 </div>
            </div>
