@@ -1,7 +1,6 @@
 .hero{
     height: 100%;
     width: 100%;
-    background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4));
     background-position: center;
     background-size: cover;
     position:absolute;
@@ -56,7 +55,7 @@
     padding:10px 30px;
     cursor: pointer;
     display: block;
-    margin:auto;
+    margin:10px;
     background:linear-gradient(to right, #ff105f,#ffad06);
     border: 0;
     outline: none;
@@ -84,4 +83,7 @@ span{
     width: 280px;
     transition: 0.5s;
     left:450px;
+}
+h1{
+    text-align: center;
 }

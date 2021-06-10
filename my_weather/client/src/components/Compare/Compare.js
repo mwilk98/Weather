@@ -92,6 +92,58 @@ class Compare extends React.Component{
         this.getForecastDailyWB(this.state.city)
     }
 
+    getDefaultCompare = (city) =>{
+        
+        this.state.compareCurrentElements.length=0
+
+        fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=pl&APPID=${API_key_OWM}`)
+        .then(response => {
+            if(response.ok){
+                return response
+            }
+            throw Error("Błąd pobierania danych z API")
+        })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response)
+            this.getForecastDailyOWM(response.coord.lat,response.coord.lon)
+            this.getWeatherWeatherApi(city)
+            this.getWeatherTommorowIo(response.coord.lat,response.coord.lon)
+            this.getWeatherVisualcrossing(city)
+            this.getWeatherWeatherbit(city)
+            this.setState({
+                compareCurrentElements:[...this.state.compareCurrentElements,{
+                    'id':1,
+                    'date':CalDate(response.dt),
+                    'weather':response.weather[0].description,
+                    'temp':CalCelsius(response.main.temp),
+                    'pressure':response.main.pressure,
+                    'wind':CalWindSpeed(response.wind.speed),
+                    'image':weatherIcons[response.weather[0].id],
+                    'source':"OpenWeatherMap"
+                }],
+                city:response.name,
+                lat:response.coord.lat,
+                lon:response.coord.lon,
+                weatherComp:response.weather[0].description,
+                tempComp:CalCelsius(response.main.temp),
+                pressureComp:response.main.pressure,
+                windComp:CalWindSpeed(response.wind.speed),
+            })
+            this.setState({
+                currentProperty:this.state.compareCurrentElements[0]
+            }) 
+        })
+        .catch(err =>{
+        console.log(err)
+        this.setState(prevState =>{
+            return{
+            error:true,
+            city:prevState.city
+        }})
+    })
+    }
+
     getWeatherOpenweathermap = (e) =>{
         e.preventDefault()
         
@@ -505,9 +557,14 @@ class Compare extends React.Component{
             value:e.target.value
         })
     }
+    componentDidMount(){
+        this.getDefaultCompare("Warszawa")
+     }
     render(){
         if(this.state.source=="OpenWeatherMap"){
-            return( <div>
+            return( <div style={{ 
+                backgroundImage: `url("/images/bg_comp.jpg")` 
+            }}>
                 <div className="city-form">
                 <Form 
                 value={this.state.value}  
@@ -577,7 +634,9 @@ class Compare extends React.Component{
         }
         if(this.state.source=="WeatherApi"){
             return(
-                <div>
+                <div style={{ 
+                    backgroundImage: `url("/images/bg_comp.jpg")` 
+                }}>
                     <div className="city-form">
                 <Form 
                 value={this.state.value}  
@@ -636,7 +695,9 @@ class Compare extends React.Component{
             )
         }
         if(this.state.source=="TomorrowIO"){
-            return( <div>
+            return( <div style={{ 
+                backgroundImage: `url("/images/bg_comp.jpg")` 
+            }}>
                 <div className="city-form">
                 <Form 
                 value={this.state.value}  
@@ -704,7 +765,9 @@ class Compare extends React.Component{
             )
         }
         if(this.state.source=="VisualCrossing"){
-            return( <div>
+            return( <div style={{ 
+                backgroundImage: `url("/images/bg_comp.jpg")` 
+            }}>
                 <div className="city-form">
                 <Form 
                 value={this.state.value}  
@@ -772,7 +835,9 @@ class Compare extends React.Component{
             )
         }
         if(this.state.source=="Weatherbit"){
-            return( <div>
+            return( <div style={{ 
+                backgroundImage: `url("/images/bg_comp.jpg")` 
+            }}>
                 <div className="city-form">
                 <Form 
                 value={this.state.value}  

@@ -79,7 +79,7 @@ function UserPanel(){
         const newIndex = property.id-2
         setProperty(cityWeatherList[newIndex])
     }
-    if(loginStatus=="unlogged"){
+    if(loginStatus!="unlogged"){
         return(
             <div className="main"style={{ 
                 backgroundImage: `url("/images/bg_myWeather.jpg")` 
@@ -159,11 +159,16 @@ function UserPanel(){
         )
     }else{
         return(
-            <div><h1>Musisz być zalogowanym aby korzystać z tej funkcji</h1>
-            <Link to='/sign-up'>
-                Zaloguj
-            </Link>
-            </div> 
+            <div className="hero" style={{ 
+                backgroundImage: `url("/images/bg_signUp.jpg")` 
+            }}>
+                <div className="form-box">
+                    <div className="login-input-group" >
+                        <h1>Musisz byc zalogowany w celu użycia tej funkcji.</h1>
+                        <Link to='/sign-up'><button type="submit" className="submit-btn" >Zaloguj</button></Link>
+                    </div>
+                </div>   
+            </div>
         )
     }
 }

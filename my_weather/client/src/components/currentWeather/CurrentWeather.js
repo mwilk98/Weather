@@ -423,6 +423,7 @@ const weatherIcons = {
     321:'/images/321.png',
     500:'/images/500D.png',
     501:'/images/501.png',
+    502:'/images/502.png',
     503:'/images/503.png',
     504:'/images/504.png',
     511:'/images/511.png',

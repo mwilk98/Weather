@@ -61,7 +61,9 @@ function SignUp(){
         })
     },[])
         return(
-            <div className="hero">
+            <div className="hero" style={{ 
+                backgroundImage: `url("/images/bg_signUp.jpg")` 
+            }}>
                 <div className="form-box">
                     <div className="button-box">
                         <div className="btn"style={{
@@ -83,8 +85,9 @@ function SignUp(){
                             setPassword(e.target.value)
                         }}
                          />
-                        <input type="checkbox" className="check-box"/><span>Zapamietaj hasło</span>
                         <button className="submit-btn" onClick={login}>Zaloguj </button>
+                        <Link to='/my-weather'><button type="submit" className="submit-btn" >Powrót</button></Link>
+                        <h1>{loginStatus}</h1> 
                     </div>
                     <div className="register-input-group"style={{
                                                         'transform':`translateX(${y}px)`
@@ -101,14 +104,9 @@ function SignUp(){
                             }}
                         />
                         <button type="submit" className="submit-btn" onClick={register}>Zarejestruj</button>
+                        <Link to='/my-weather'><button type="submit" className="submit-btn" >Powrót</button></Link>
                     </div>
                 </div>   
-                 <h1>
-                {loginStatus}
-                <Link to='/my-weather'>
-                Powrót
-                </Link>
-            </h1> 
             </div>
         )   
     }
