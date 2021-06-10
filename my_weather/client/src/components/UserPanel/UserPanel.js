@@ -81,55 +81,65 @@ function UserPanel(){
     }
     if(loginStatus!="unlogged"){
         return(
-            <div className="main"style={{ 
-                backgroundImage: `url("/images/bg_myWeather.jpg")` 
-              }}>
-            <div className='user-panel'>
-                <h1>Moja Pogoda</h1>  
-                <div className='user-form'>
-                    <label>Miejsce</label>
-                    <input type="text" name="cityName" onChange={(e)=>{
-                        setCityName(e.target.value)
-                    }}/>
-                    <label>Data</label>
-                    <input type="text" name="date"onChange={(e)=>{
-                        setDate(e.target.value)
-                    }}/>
-                    <label>Godzina</label>
-                    <input type="text" name="time"onChange={(e)=>{
-                        setTime(e.target.value)
-                    }}/>
-                    <label>Pogoda</label>
-                    <input type="text" name="weather"onChange={(e)=>{
-                        setWeatherState(e.target.value)
-                    }}/>
-                    <label>Temperatura</label>
-                    <input type="text" name="temp"onChange={(e)=>{
-                        setTemp(e.target.value)
-                    }}/>
-                    <label>Zachmurzenie</label>
-                    <input type="text" name="clouds"onChange={(e)=>{
-                        setClouds(e.target.value)
-                    }}/>
-                    <label>Wilgotność</label>
-                    <input type="text" name="humidity"onChange={(e)=>{
-                        setHumidity(e.target.value)
-                    }}/>
-                    <label>Ciśnienie</label>
-                    <input type="text" name="pressure"onChange={(e)=>{
-                        setPressure(e.target.value)
-                    }}/>
-                    <label>Wiatr</label>
-                    <input type="text" name="wind"onChange={(e)=>{
-                        setWind(e.target.value)
-                    }}/>
-                    <label>Jakość powietrza</label>
-                    <input type="text" name="aqi"onChange={(e)=>{
-                        setAqi(e.target.value)
-                    }}/>
-                    <button onClick={submitWeather}>Dodaj</button>
-                </div>
-                </div>
+            <div className="hero2" style={{ 
+                backgroundImage: `url("/images/bg_signUp.jpg")` 
+            }}>
+                <div className="form-box2">
+                    <div className="login-input-group2">
+                        <input type="text" className="input-field2" placeholder="Miejsce" required 
+                        
+                        onChange={(e)=>{
+                            setCityName(e.target.value)
+                        }}/>
+                        <input type="text" className="input-field2" placeholder="Data" required 
+                        
+                        onChange={(e)=>{
+                            setDate(e.target.value)
+                        }}/>
+                        <input type="text" className="input-field2" placeholder="Godzina" required 
+                        
+                        onChange={(e)=>{
+                            setTime(e.target.value)
+                        }}/>
+                        <input type="text" className="input-field2" placeholder="Pogoda" required 
+                        
+                        onChange={(e)=>{
+                            setWeatherState(e.target.value)
+                        }}/>
+                        <input type="text" className="input-field2" placeholder="Temperatura (°C)" required 
+                        
+                        onChange={(e)=>{
+                            setTemp(e.target.value)
+                        }}/>
+                        <input type="text" className="input-field2" placeholder="Zachmurzenie (%)" required 
+                        
+                        onChange={(e)=>{
+                            setClouds(e.target.value)
+                        }}/>
+                        <input type="text" className="input-field2" placeholder="Wilgotność" required 
+                        
+                        onChange={(e)=>{
+                            setHumidity(e.target.value)
+                        }}/>
+                        <input type="text" className="input-field2" placeholder="Ciśnienie (hPa)" required 
+                        
+                        onChange={(e)=>{
+                            setPressure(e.target.value)
+                        }}/>
+                        <input type="text" className="input-field2" placeholder="Wiatr (km/h)" required 
+                        
+                        onChange={(e)=>{
+                            setWind(e.target.value)
+                        }}/>
+                        <input type="text" className="input-field2" placeholder="Jakość powietrza (1-5)" required 
+                        
+                        onChange={(e)=>{
+                            setAqi(e.target.value)
+                        }}/>
+                        <button type="submit" className="submit-btn2" onClick={submitWeather}>Dodaj</button>
+                    </div>
+                </div>   
+
                 <div className="user-main">
                 {property ?(
                     <div className="user-cards">
@@ -164,7 +174,7 @@ function UserPanel(){
             }}>
                 <div className="form-box">
                     <div className="login-input-group" >
-                        <h1>Musisz byc zalogowany w celu użycia tej funkcji.</h1>
+                        <h1>Musisz być zalogowanym aby korzystać z tej funkcji.</h1>
                         <Link to='/sign-up'><button type="submit" className="submit-btn" >Zaloguj</button></Link>
                     </div>
                 </div>   
