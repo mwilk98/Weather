@@ -4,6 +4,8 @@ import UserPanel from '../UserPanel/UserPanel'
 import {Link} from 'react-router-dom'
 import './SignUp.css'
 
+import { useHistory } from "react-router-dom";
+
 function SignUp(){
 
     const [usernameReg, setUsernameReg] = useState('')
@@ -17,6 +19,8 @@ function SignUp(){
     const [x, setX] = useState('')
     const [y, setY] = useState('')
     const [z, setZ] = useState('')
+
+    const history = useHistory();
 
     Axios.defaults.withCredentials = true
 
@@ -39,6 +43,7 @@ function SignUp(){
                 setLoginStatus("unlogged")
             }else{
                 setLoginStatus("logged")
+                history.push("/my-weather");
             }
         })
     }

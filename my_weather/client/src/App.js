@@ -7,9 +7,13 @@ import AirCondition from './components/AirCondition/AirCondition';
 import Compare from './components/Compare/Compare'
 import SignUp from './components/SignUp/SignUp'
 
+import { createBrowserHistory } from "history";
+
+const history = createBrowserHistory();
+
 function App() {
   return (
-    <Router>
+    <Router history={history}>
       <Navbar/>
       <Switch>
         <Route path='/' exact component={CurrentWeather}/>
