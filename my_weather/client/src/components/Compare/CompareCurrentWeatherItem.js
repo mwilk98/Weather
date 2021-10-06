@@ -1,7 +1,7 @@
 import React from 'react'
 
 const CompareCurrentWeatherItem=({element, compare })=>{
-    const {id,date,image,background,weather,temp,pressure,wind,source} = element;
+    const {date,image,weather,temp,pressure,wind,source} = element;
     const{weatherComp,tempComp,pressureComp,windComp} = compare
 
     return ( 
@@ -11,7 +11,7 @@ const CompareCurrentWeatherItem=({element, compare })=>{
                     <div className="content">
                         <h3>{source}</h3>
                         <p>{date}</p>
-                        <p><img src={image} width="100" height="100" /></p>
+                        <p><img src={image} width="100" height="100" alt="img"/></p>
                         <h3>{weather} </h3>
                         <h3>({weatherComp})</h3>
                     </div>

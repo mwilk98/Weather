@@ -36,7 +36,6 @@ class CurrentWeather extends React.Component{
             humidity:undefined,
             sunrise:undefined,
             sunset:undefined,
-            background:undefined,
             forecastDailyElements:[
             ],
             forecastHourlyElements:[
@@ -93,7 +92,6 @@ class CurrentWeather extends React.Component{
             this.getForecastDaily(response.coord.lat,response.coord.lon)
             this.getForecastHourly(response.coord.lat,response.coord.lon)
             this.getAirQuality(response.coord.lat,response.coord.lon)
-              const localTime = new Date().toLocaleString()
               console.log(response)
               this.setState(state =>({
                 city:state.city,
@@ -143,7 +141,6 @@ class CurrentWeather extends React.Component{
           })
           .then(response => response.json())
           .then(response => {
-              const localTime = new Date().toLocaleString()
               console.log(response)
               this.getForecastDaily(response.coord.lat,response.coord.lon)
               this.getForecastHourly(response.coord.lat,response.coord.lon)
@@ -210,7 +207,10 @@ class CurrentWeather extends React.Component{
     getForecastDaily = (lat,lon)=>{
 
         console.log(lat)
-        this.state.forecastDailyElements.length=0
+        this.setState({
+            forecastDailyElements:[
+            ]
+        })
         
         fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&lang=pl&appid=${API_key}`)
           .then(response => {
@@ -245,7 +245,10 @@ class CurrentWeather extends React.Component{
     }
     getForecastHourly = (lat,lon)=>{
 
-        this.state.forecastHourlyElements.length=0
+        this.setState({
+            forecastHourlyElements:[
+            ]
+        })
         
         fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&lang=pl&appid=${API_key}`)
           .then(response => {
@@ -256,7 +259,6 @@ class CurrentWeather extends React.Component{
           })
           .then(response => response.json())
           .then(response => {
-              const localTime = new Date().toLocaleString()
               console.log(response)
               for (var i = 0; i < 48; i++) {
                 this.setState({

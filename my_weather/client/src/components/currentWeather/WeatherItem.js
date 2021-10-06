@@ -20,7 +20,6 @@ const WeatherItem = props => {
         sunset,
         aqi,
         color,
-        background,
         error} = props.weather
 
         let content = null
@@ -32,25 +31,28 @@ const WeatherItem = props => {
                         <div className="content">
                         <p>{city} {country}</p>
                         <p>{date} {time}</p>
-                        <p><img src={image} width="90" height="90" /></p>
+                        <p><img src={image} width="90" height="90" alt="img"/></p>
                         <h3>{weather}</h3>
-                        <p><img src={weatherIcons[5]} width="20" height="20" /> {temp}&deg;</p>
+                        <p><img src={weatherIcons[5]} width="20" height="20" alt="img"/> {temp}&deg;</p>
                         </div>
                         </div>
                         <div className="face face2">
                             <div className="content">
-                                <p><img src={weatherIcons[1]} width="20" height="20" />{clouds}% <img src={weatherIcons[4]} width="20" height="20" />{humidity}%</p>
+                                <p><img src={weatherIcons[1]} width="20" height="20" alt="img"/>{clouds}% <img src={weatherIcons[4]} width="20" height="20" alt="img"/>{humidity}%</p>
                                 <p></p>
-                                <p><img src={weatherIcons[2]} width="20" height="20" />{sunrise} <img src={weatherIcons[3]} width="20" height="20" />{sunset}</p>
-                                <p><img src={weatherIcons[5]} width="20" height="20" />odczuwalna {tempFeel}&deg;</p>
-                                <p><img src={weatherIcons[5]} width="20" height="20" />max:{tempMax}&deg; <img src={weatherIcons[5]} width="20" height="20" />min:{tempMin}&deg;</p>  
-                                <p><img src={weatherIcons[6]} width="20" height="20" />{pressure} hPa</p>  
-                                <p><img src={weatherIcons[7]} width="20" height="20" />{wind}km/h</p>
-                                <p>Jakość powietrza:<p className="aqi" style={{ 
+                                <p><img src={weatherIcons[2]} width="20" height="20" alt="img"/>{sunrise} <img src={weatherIcons[3]} width="20" height="20" alt="img"/>{sunset}</p>
+                                <p><img src={weatherIcons[5]} width="20" height="20" alt="img"/>odczuwalna {tempFeel}&deg;</p>
+                                <p><img src={weatherIcons[5]} width="20" height="20" alt="img"/>max:{tempMax}&deg; <img src={weatherIcons[5]} width="20" height="20" alt="img"/>min:{tempMin}&deg;</p>  
+                                <p><img src={weatherIcons[6]} width="20" height="20" alt="img"/>{pressure} hPa</p>  
+                                <p><img src={weatherIcons[7]} width="20" height="20" alt="img"/>{wind}km/h</p>
+                                <p>Jakość powietrza:</p>
+                                <p className="aqi" style={{ 
                                                     color: conditionColors[color]
-                                                    }}> {aqi} <Link to='/air-condition' >
-                                                                                Sczegłóły
-                                                                                </Link></p></p>
+                                                    }}> {aqi}
+                                                    <Link to='/air-condition' >
+                                                    Sczegłóły
+                                                    </Link>
+                                </p>
                             </div>
                         </div>
                 </div>

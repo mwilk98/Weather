@@ -1,6 +1,5 @@
 import React,{useEffect, useState} from 'react'
 import Axios from 'axios'
-import UserPanel from '../UserPanel/UserPanel'
 import {Link} from 'react-router-dom'
 import './SignUp.css'
 
@@ -59,7 +58,7 @@ function SignUp(){
     }
     useEffect(()=>{
         Axios.get('http://localhost:3001/api/login').then((response)=>{
-            if(response.data.loggedIn==true){
+            if(response.data.loggedIn===true){
                 setLoginStatus(response.data.user[0].username)
                 console.log(response)
             }

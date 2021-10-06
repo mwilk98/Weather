@@ -41,7 +41,6 @@ class AirCondition extends React.Component{
           })
           .then(response => response.json())
           .then(response => {
-              const localTime = new Date().toLocaleString()
               console.log(response)
               this.getAirQuality(response.coord.lat,response.coord.lon)
               this.setState(state =>({

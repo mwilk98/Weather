@@ -1,16 +1,17 @@
 import React from 'react'
 import Form from '../Form/Form'
 import CalDate from '../Functions/CalDate';
-import CalTime from '../Functions/CalTime';
 import CalCelsius from '../Functions/CalCelsius';
 import CalWindSpeed from '../Functions/CalWindSpeed';
 import CompareCurrentWeatherItem from './CompareCurrentWeatherItem'
-import './Compare.css';
 import CompareForecastItem from './CompareForecastItem';
+
+import './Compare.css';
 
 const API_key_OWM="157d33f8987d245bc6a1997408e90015"
 const API_key_WA = "d42d0d989ead4316b9d143558213105"
 const API_key_w = "4c7c27f8abf34ae09c61bad9a897be7e"
+
 class Compare extends React.Component{
     constructor(props){
         super(props)
@@ -36,17 +37,17 @@ class Compare extends React.Component{
             error:false
         }
     }
-    nextOWMProperty = () => {
-        const newIndex = this.state.OWMProperty.id +1
+    nextProperty = (Property,Elements) => {
+        const newIndex = Property.id +1
         this.setState({
-            OWMProperty: this.state.forecastDailyElementsOWM[newIndex]
+            OWMProperty: Elements[newIndex]
         })
         console.log(newIndex)
     }
-    prevOWMProperty= () => {
-        const newIndex = this.state.OWMProperty.id -1
+    prevProperty= (Property,Elements) => {
+        const newIndex = Property.id -1
         this.setState({
-            OWMProperty: this.state.forecastDailyElementsOWM[newIndex]
+            OWMProperty: Elements[newIndex]
         })
     }
     nextOtherProperty = () => {
@@ -94,7 +95,10 @@ class Compare extends React.Component{
 
     getDefaultCompare = (city) =>{
         
-        this.state.compareCurrentElements.length=0
+        this.setState({
+            compareCurrentElements:[
+            ]
+        })
 
         fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=pl&APPID=${API_key_OWM}`)
         .then(response => {
@@ -147,7 +151,10 @@ class Compare extends React.Component{
     getWeatherOpenweathermap = (e) =>{
         e.preventDefault()
         
-        this.state.compareCurrentElements.length=0
+        this.setState({
+            compareCurrentElements:[
+            ]
+        })
 
         fetch(`http://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&lang=pl&APPID=${API_key_OWM}`)
         .then(response => {
@@ -199,7 +206,10 @@ class Compare extends React.Component{
     getForecastDailyOWM = (lat,lon)=>{
 
         console.log(lat)
-        this.state.forecastDailyElementsOWM.length=0
+        this.setState({
+            forecastDailyElementsOWM:[
+            ]
+        })
         
         fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&lang=pl&appid=${API_key_OWM}`)
           .then(response => {
@@ -269,7 +279,10 @@ class Compare extends React.Component{
     }
     getForecastDailyWA = (city) =>{
 
-        this.state.forecastDailyElementsOther.length=0
+        this.setState({
+            forecastDailyElementsOther:[
+            ]
+        })
             
         fetch(`http://api.weatherapi.com/v1/forecast.json?key=${API_key_WA}&q=${city}&days=4&aqi=yes&alerts=yes&lang=pl
         `)
@@ -312,7 +325,10 @@ class Compare extends React.Component{
     })
     }
     getWeatherTommorowIo = (lat,lon) =>{
-        this.state.forecastDailyElementsOther.length=0
+        this.setState({
+            forecastDailyElementsOther:[
+            ]
+        })
             
         fetch(`https://api.tomorrow.io/v4/timelines?location=${lat},${lon}&fields=temperature,humidity,windSpeed,cloudCover,weatherCode,pressureSurfaceLevel&timesteps=1d&units=metric&apikey=Xsa59kYGGrHiXs1TZ3cItU7zRZ4FfGQ8
         `)
@@ -348,7 +364,10 @@ class Compare extends React.Component{
     })
     } 
     getForecastDailyTI = (lat,lon) =>{
-        this.state.forecastDailyElementsOther.length=0
+        this.setState({
+            forecastDailyElementsOther:[
+            ]
+        })
             
         fetch(`https://api.tomorrow.io/v4/timelines?location=${lat},${lon}&fields=temperature,humidity,windSpeed,cloudCover,weatherCode,pressureSurfaceLevel&timesteps=1d&units=metric&apikey=Xsa59kYGGrHiXs1TZ3cItU7zRZ4FfGQ8
         `)
@@ -392,7 +411,10 @@ class Compare extends React.Component{
     } 
     getWeatherVisualcrossing = (city) =>{
 
-        this.state.forecastDailyElementsOther.length=0
+        this.setState({
+            forecastDailyElementsOther:[
+            ]
+        })
             
         fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?aggregateHours=24&combinationMethod=aggregate&contentType=json&unitGroup=metric&locationMode=single&iconSet=icons2&key=LHKNDUGQ4MSQTL5749JVGX4XV&dataElements=default&locations=${city}
         `)
@@ -429,7 +451,10 @@ class Compare extends React.Component{
     } 
     getForecastDailyVC = (city) =>{
 
-        this.state.forecastDailyElementsOther.length=0
+        this.setState({
+            forecastDailyElementsOther:[
+            ]
+        })
             
         fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?aggregateHours=24&combinationMethod=aggregate&contentType=json&unitGroup=metric&locationMode=single&iconSet=icons2&key=LHKNDUGQ4MSQTL5749JVGX4XV&dataElements=default&locations=${city}
         `)
@@ -473,7 +498,10 @@ class Compare extends React.Component{
     } 
     getWeatherWeatherbit = (city) =>{
 
-        this.state.forecastDailyElementsOther.length=0
+        this.setState({
+            forecastDailyElementsOther:[
+            ]
+        })
             
         fetch(` https://api.weatherbit.io/v2.0/forecast/daily?city=${city}&lang=pl&key=${API_key_w}
         `)
@@ -510,7 +538,10 @@ class Compare extends React.Component{
     } 
     getForecastDailyWB = (city) =>{
 
-        this.state.forecastDailyElementsOther.length=0
+        this.setState({
+            forecastDailyElementsOther:[
+            ]
+        })
             
         fetch(` https://api.weatherbit.io/v2.0/forecast/daily?city=${city}&lang=pl&key=${API_key_w}
         `)
@@ -561,7 +592,7 @@ class Compare extends React.Component{
         this.getDefaultCompare("Warszawa")
      }
     render(){
-        if(this.state.source=="OpenWeatherMap"){
+        if(this.state.source==="OpenWeatherMap"){
             return( <div style={{ 
                 backgroundImage: `url("/images/bg_comp.jpg")` 
             }}>
@@ -608,12 +639,12 @@ class Compare extends React.Component{
                 {this.state.OWMProperty ?(
                 <div className="main-cards">  
                 <button className="left" 
-                                onClick={() => this.nextOWMProperty()} 
+                                onClick={() => this.nextProperty(this.state.OWMProperty,this.state.forecastDailyElementsOWM)} 
                                 disabled={this.state.OWMProperty.id === this.state.forecastDailyElementsOWM.length-3}
                             >Next
                             </button>
                             <button className="right"
-                                    onClick={() => this.prevOWMProperty()} 
+                                    onClick={() => this.prevProperty(this.state.OWMProperty,this.state.forecastDailyElementsOWM)} 
                                     disabled={this.state.OWMProperty.id === 1}
                             >Prev
                             </button>
@@ -632,69 +663,7 @@ class Compare extends React.Component{
             </div>
             )
         }
-        if(this.state.source=="WeatherApi"){
-            return(
-                <div style={{ 
-                    backgroundImage: `url("/images/bg_comp.jpg")` 
-                }}>
-                    <div className="city-form">
-                <Form 
-                value={this.state.value}  
-                handler={this.inputHandler}
-                submit={this.getWeatherOpenweathermap}
-                /> 
-                </div>
-                <div className="compare-main-cards">
-                    {this.state.currentProperty ?( 
-                    <div className="compare-cards-slider">
-                        <div className="compare-cards-slider-wrapper" style={{
-                            'transform':`translateX(-${this.state.currentProperty.id*(100/this.state.compareCurrentElements.length)}%)`
-                        }}>
-                            {this.state.compareCurrentElements.map(fde => <CompareCurrentWeatherItem compare={this.state} key={fde.id} element={fde} />)}
-                        </div>
-                        
-                    </div>
-                    ):null}
-                </div>
-                <button 
-                onClick={() => this.setOpenWeatherMap()} 
-                >OpenWeatherMap
-                </button>
-                <button 
-                onClick={() => this.setWeatherApi()} 
-                >WeatherApi
-                </button>
-                <button 
-                onClick={() => this.setTomorrowIO()} 
-                >TommorowIO
-                </button>
-                <button 
-                onClick={() => this.setVisualCrossing()} 
-                >VisualCrossing
-                </button>
-                <button 
-                onClick={() => this.setWeatherbit()} 
-                >Weatherbit
-                </button>
-                    <div className="compare-main">
-                {this.state.OtherProperty ?(
-                <div className="main-cards"> 
-                
-                                <div className="cards-slider">         
-                                    <div className="cards-slider-wrapper" style={{
-                                                                            'transform':`translateX(-${this.state.OtherProperty.id*(100/this.state.forecastDailyElementsOther.length)}%)`
-                                    }}>
-                                        {this.state.forecastDailyElementsOther.map(fde => <CompareForecastItem key={fde.id} element={fde} />)}
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            ):null}
-                </div>
-                </div>
-            )
-        }
-        if(this.state.source=="TomorrowIO"){
+        else{
             return( <div style={{ 
                 backgroundImage: `url("/images/bg_comp.jpg")` 
             }}>
@@ -764,147 +733,6 @@ class Compare extends React.Component{
             </div>
             )
         }
-        if(this.state.source=="VisualCrossing"){
-            return( <div style={{ 
-                backgroundImage: `url("/images/bg_comp.jpg")` 
-            }}>
-                <div className="city-form">
-                <Form 
-                value={this.state.value}  
-                handler={this.inputHandler}
-                submit={this.getWeatherOpenweathermap}
-                /> 
-                </div>
-                <div className="compare-main-cards">
-                    {this.state.currentProperty ?( 
-                    <div className="compare-cards-slider">
-                        <div className="compare-cards-slider-wrapper" style={{
-                            'transform':`translateX(-${this.state.currentProperty.id*(100/this.state.compareCurrentElements.length)}%)`
-                        }}>
-                            {this.state.compareCurrentElements.map(fde => <CompareCurrentWeatherItem compare={this.state} key={fde.id} element={fde} />)}
-                        </div>
-                        
-                    </div>
-                    ):null}
-                </div>
-                <button 
-                onClick={() => this.setOpenWeatherMap()} 
-                >OpenWeatherMap
-                </button>
-                <button 
-                onClick={() => this.setWeatherApi()} 
-                >WeatherApi
-                </button>
-                <button 
-                onClick={() => this.setTomorrowIO()} 
-                >TommorowIO
-                </button>
-                <button 
-                onClick={() => this.setVisualCrossing()} 
-                >VisualCrossing
-                </button>
-                <button 
-                onClick={() => this.setWeatherbit()} 
-                >Weatherbit
-                </button>
-                <div className="compare-main">
-                {this.state.OtherProperty ?(
-                <div className="main-cards"> 
-                 <button className="left" 
-                                onClick={() => this.nextOtherProperty()} 
-                                disabled={this.state.OtherProperty.id === this.state.forecastDailyElementsOther.length-3}
-                            >Next
-                            </button>
-                            <button className="right"
-                                    onClick={() => this.prevOtherProperty()} 
-                                    disabled={this.state.OtherProperty.id === 1}
-                            >Prev
-                            </button>
-                                <div className="cards-slider">         
-                                    <div className="cards-slider-wrapper" style={{
-                                                                            'transform':`translateX(-${this.state.OtherProperty.id*(100/this.state.forecastDailyElementsOther.length)}%)`
-                                    }}>
-                                        {this.state.forecastDailyElementsOther.map(fde => <CompareForecastItem key={fde.id} element={fde} />)}
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            ):null}
-                </div>
-            </div>
-            )
-        }
-        if(this.state.source=="Weatherbit"){
-            return( <div style={{ 
-                backgroundImage: `url("/images/bg_comp.jpg")` 
-            }}>
-                <div className="city-form">
-                <Form 
-                value={this.state.value}  
-                handler={this.inputHandler}
-                submit={this.getWeatherOpenweathermap}
-                /> 
-                </div>
-                <div className="compare-main-cards">
-                    {this.state.currentProperty ?( 
-                    <div className="compare-cards-slider">
-                        <div className="compare-cards-slider-wrapper" style={{
-                            'transform':`translateX(-${this.state.currentProperty.id*(100/this.state.compareCurrentElements.length)}%)`
-                        }}>
-                            {this.state.compareCurrentElements.map(fde => <CompareCurrentWeatherItem compare={this.state} key={fde.id} element={fde} />)}
-                        </div>
-                        
-                    </div>
-                    ):null}
-                </div>
-                <button 
-                onClick={() => this.setOpenWeatherMap()} 
-                >OpenWeatherMap
-                </button>
-                <button 
-                onClick={() => this.setWeatherApi()} 
-                >WeatherApi
-                </button>
-                <button 
-                onClick={() => this.setTomorrowIO()} 
-                >TommorowIO
-                </button>
-                <button 
-                onClick={() => this.setVisualCrossing()} 
-                >VisualCrossing
-                </button>
-                <button 
-                onClick={() => this.setWeatherbit()} 
-                >Weatherbit
-                </button>
-                <div className="compare-main">
-                {this.state.OtherProperty ?(
-                <div className="main-cards"> 
-                <button className="left" 
-                                onClick={() => this.nextOtherProperty()} 
-                                disabled={this.state.OtherProperty.id === this.state.forecastDailyElementsOther.length-3}
-                            >Next
-                            </button>
-                            <button className="right"
-                                    onClick={() => this.prevOtherProperty()} 
-                                    disabled={this.state.OtherProperty.id === 1}
-                            >Prev
-                            </button>
-                                <div className="cards-slider">         
-                                    <div className="cards-slider-wrapper" style={{
-                                                                            'transform':`translateX(-${this.state.OtherProperty.id*(100/this.state.forecastDailyElementsOther.length)}%)`
-                                    }}>
-                                        {this.state.forecastDailyElementsOther.map(fde => <CompareForecastItem key={fde.id} element={fde} />)}
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            ):null}
-                </div>
-            </div>
-            )
-        }
-        
     }
 }
 const weatherIcons = {
@@ -1033,7 +861,6 @@ const weatherIcons = {
     1102:'/images/803D.png',
     1101:'/images/802D.png',
     1100:'/images/801D.png',
-    1000:'/images/800D.png',
 }
 const weatherConditions = {
     4201:'Duży deszcz',

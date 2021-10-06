@@ -27,7 +27,7 @@ function UserPanel(){
    
     useEffect(()=>{
         Axios.get('http://localhost:3001/api/login').then((response)=>{
-            if(response.data.loggedIn==true){
+            if(response.data.loggedIn===true){
                 setLoginStatus(response.data.user[0].username)
                 console.log(response)
             }else{
@@ -79,7 +79,7 @@ function UserPanel(){
         const newIndex = property.id-2
         setProperty(cityWeatherList[newIndex])
     }
-    if(loginStatus!="unlogged"){
+    if(loginStatus!=="unlogged"){
         return(
             <div className="hero2" style={{ 
                 backgroundImage: `url("/images/bg_signUp.jpg")` 
