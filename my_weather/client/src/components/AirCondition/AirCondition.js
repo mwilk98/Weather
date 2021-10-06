@@ -7,13 +7,12 @@ import './AirCondition.css';
 
 const API_key="157d33f8987d245bc6a1997408e90015"
 
-
 class AirCondition extends React.Component{
     constructor(props){
         super(props)
         this.state={
         value:"",
-        city:"",
+        city:"Miasto",
         country:"",
         aqi:undefined,
         co:undefined,
@@ -63,26 +62,26 @@ class AirCondition extends React.Component{
     }
     getAirQuality(lat,lon){
         fetch(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_key}`)
-          .then(response2 => {
-              if(response2.ok){
-                  return response2
+          .then(responseAirQuality => {
+              if(responseAirQuality.ok){
+                  return responseAirQuality
               }
               throw Error("Błąd pobierania danych z API")
           })
-          .then(response2 => response2.json())
-          .then(response2 => {
-              console.log(response2)
+          .then(responseAirQuality => responseAirQuality.json())
+          .then(responseAirQuality => {
+              console.log(responseAirQuality)
               this.setState(state =>({
-                aqi:airConditions[ response2.list[0].main.aqi],
-                co:response2.list[0].components.co,
-                nh3:response2.list[0].components.nh3,
-                no:response2.list[0].components.no,
-                no2:response2.list[0].components.no2,
-                o3:response2.list[0].components.o3,
-                pm2_5:response2.list[0].components.pm2_5,
-                pm10:response2.list[0].components.pm10,
-                so2:response2.list[0].components.so2,
-                color:response2.list[0].main.aqi,
+                aqi:airConditions[ responseAirQuality.list[0].main.aqi],
+                co:responseAirQuality.list[0].components.co,
+                nh3:responseAirQuality.list[0].components.nh3,
+                no:responseAirQuality.list[0].components.no,
+                no2:responseAirQuality.list[0].components.no2,
+                o3:responseAirQuality.list[0].components.o3,
+                pm2_5:responseAirQuality.list[0].components.pm2_5,
+                pm10:responseAirQuality.list[0].components.pm10,
+                so2:responseAirQuality.list[0].components.so2,
+                color:responseAirQuality.list[0].main.aqi,
                 error:false
               }))
           })
@@ -112,20 +111,17 @@ class AirCondition extends React.Component{
                 <div className="city-form">
                 <h1>Wyszukaj miasto dla którego chcesz sprawdzić obecny stan powietrza</h1>
                 <Form 
-                value={this.state.value}  
-                handler={this.inputHandler}
-                submit={this.submitHandler}
+                    value={this.state.value}  
+                    handler={this.inputHandler}
+                    submit={this.submitHandler}
                 /> 
                 </div> 
                 <div>
-                {this.state.city ?(
-                    <AirConditionItem air={this.state}/>   
-                ):null}
+                    {this.state.city ?(
+                        <AirConditionItem air={this.state}/>   
+                    ):null}
                 </div>
-                
                 </div>
-
-            
         )
     }
 }
