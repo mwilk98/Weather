@@ -140,6 +140,14 @@ app.post('/api/login', (req,res)=>{
 
 })
 
+app.get('/api/air', (req,res)=>{
+
+  const sqlSelect= "SELECT * FROM air_condition;"
+  db.query(sqlSelect, (err,result)=>{
+    res.send(result)
+  })
+})
+
 app.listen(3001,()=> {
     console.log('running on port 3001')
 })

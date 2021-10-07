@@ -61,7 +61,7 @@ class AirCondition extends React.Component{
         })
     }
     getAirQuality(lat,lon){
-        fetch(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_key}`)
+        const result = fetch(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_key}`)
           .then(responseAirQuality => {
               if(responseAirQuality.ok){
                   return responseAirQuality
@@ -72,7 +72,6 @@ class AirCondition extends React.Component{
           .then(responseAirQuality => {
               console.log(responseAirQuality)
               this.setState(state =>({
-                aqi:airConditions[ responseAirQuality.list[0].main.aqi],
                 co:responseAirQuality.list[0].components.co,
                 nh3:responseAirQuality.list[0].components.nh3,
                 no:responseAirQuality.list[0].components.no,
@@ -84,7 +83,9 @@ class AirCondition extends React.Component{
                 color:responseAirQuality.list[0].main.aqi,
                 error:false
               }))
+              return fetch(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_key}`);
           })
+          .then(responseAirQuality => responseAirQuality.json())         
           .catch(err =>{
             console.log(err)
             this.setState(prevState =>{
@@ -93,6 +94,24 @@ class AirCondition extends React.Component{
                 city:prevState.city
             }})
         })
+        result.then(r =>{
+            fetch(`http://localhost:3001/api/air`)
+            .then(responseAir => {
+                if(responseAir.ok){
+                    return responseAir
+                }
+                throw Error("Błąd pobierania danych z API")
+            })
+            .then(responseAir => responseAir.json())
+            .then(responseAir => {
+                console.log(responseAir)
+                console.log(r)
+                this.setState(state =>({
+                  aqi:responseAir[r.list[0].main.aqi-1].condition,
+                  error:false
+                }))
+            })
+          })
     }
     inputHandler=(e)=>{
         this.setState({
@@ -124,12 +143,5 @@ class AirCondition extends React.Component{
                 </div>
         )
     }
-}
-const airConditions = {
-    1:'Bardzo dobra',
-    2:'Dobra',
-    3:'Średnia',
-    4:'Zła',
-    5:'Bardzo zła',
 }
 export default AirCondition
