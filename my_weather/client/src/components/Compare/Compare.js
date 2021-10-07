@@ -100,7 +100,7 @@ class Compare extends React.Component{
             ]
         })
 
-        fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=pl&APPID=${API_key_OWM}`)
+        const result = fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=pl&APPID=${API_key_OWM}`)
         .then(response => {
             if(response.ok){
                 return response
@@ -137,7 +137,9 @@ class Compare extends React.Component{
             this.setState({
                 currentProperty:this.state.compareCurrentElements[0]
             }) 
+            return fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=pl&APPID=${API_key_OWM}`);
         })
+        .then(responseAirQuality => responseAirQuality.json()) 
         .catch(err =>{
         console.log(err)
         this.setState(prevState =>{
@@ -145,63 +147,28 @@ class Compare extends React.Component{
             error:true,
             city:prevState.city
         }})
-    })
-    }
-
-    getWeatherOpenweathermap = (e) =>{
-        e.preventDefault()
-        
-        this.setState({
-            compareCurrentElements:[
-            ]
         })
-
-        fetch(`http://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&lang=pl&APPID=${API_key_OWM}`)
-        .then(response => {
-            if(response.ok){
-                return response
-            }
-            throw Error("Błąd pobierania danych z API")
-        })
-        .then(response => response.json())
-        .then(response => {
-            console.log(response)
-            this.getForecastDailyOWM(response.coord.lat,response.coord.lon)
-            this.getWeatherWeatherApi(this.state.value)
-            this.getWeatherTommorowIo(response.coord.lat,response.coord.lon)
-            this.getWeatherVisualcrossing(this.state.value)
-            this.getWeatherWeatherbit(this.state.value)
-            this.setState({
-                compareCurrentElements:[...this.state.compareCurrentElements,{
-                    'id':1,
-                    'date':CalDate(response.dt),
-                    'weather':response.weather[0].description,
-                    'temp':CalCelsius(response.main.temp),
-                    'pressure':response.main.pressure,
-                    'wind':CalWindSpeed(response.wind.speed),
-                    'image':weatherIcons[response.weather[0].id],
-                    'source':"OpenWeatherMap"
-                }],
-                city:response.name,
-                lat:response.coord.lat,
-                lon:response.coord.lon,
-                weatherComp:response.weather[0].description,
-                tempComp:CalCelsius(response.main.temp),
-                pressureComp:response.main.pressure,
-                windComp:CalWindSpeed(response.wind.speed),
+        result.then(r =>{
+            console.log(r.weather[0].id)
+            fetch(`http://localhost:3001/api/weather`,{
+                method: 'post',
+                body: JSON.stringify({id: 200}),
+                headers: {'Content-Type': 'application/json'}})
+            .then(response => {
+                if(response.ok){
+                    return response
+                }
+                throw Error("Błąd pobierania danych z API")
             })
-            this.setState({
-                currentProperty:this.state.compareCurrentElements[0]
-            }) 
+            .then(response => response.json())
+            .then(response => {
+                console.log(response)
+                console.log(this.state.compareCurrentElements[0])
+                const newIds = this.state.compareCurrentElements.slice() //copy the array
+                newIds[0].image = response[0].path //execute the manipulations
+                this.setState({compareCurrentElements: newIds})
+            })
         })
-        .catch(err =>{
-        console.log(err)
-        this.setState(prevState =>{
-            return{
-            error:true,
-            city:prevState.city
-        }})
-    })
     }
     getForecastDailyOWM = (lat,lon)=>{
 

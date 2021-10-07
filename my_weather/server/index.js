@@ -148,6 +148,20 @@ app.get('/api/air', (req,res)=>{
   })
 })
 
+app.post('/api/weather', (req,res)=>{
+  const id = req.body.id
+  console.log(id)
+  db.query(
+    "SELECT * FROM icons WHERE id = ?;",
+    id,
+    (err,result)=>{
+      if(err){
+        res.send({err:err})
+      }
+        res.send(result)
+      })
+      }
+  )
 app.listen(3001,()=> {
     console.log('running on port 3001')
 })
