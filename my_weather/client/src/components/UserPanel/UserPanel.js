@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom'
 
 function UserPanel(){
 
+    const [Lid, setLid] = useState('')
     const [cityName, setCityName] = useState('')
     const [date, setDate] = useState('')
     const [time, setTime] = useState('')
@@ -37,8 +38,13 @@ function UserPanel(){
         Axios.get('http://localhost:3001/api/get')
         .then((response)=>{
             setcityWeatherList(response.data)
-            setProperty(response.data[1])
+            setProperty(response.data[0])
+            console.log(response)
+            console.log("PropertyGet:",property)
         })
+        
+        setLid(0)
+        setProperty(cityWeatherList[Lid])
     },[])
     const submitWeather = () =>{
 
@@ -67,17 +73,31 @@ function UserPanel(){
             aqi:aqi
         },])
     }
-    const nextProperty = () => {
-        const newIndex = property.id
+    const deleteWeather = (id) =>{
 
+        Axios.post('http://localhost:3001/api/delete',{
+            id:id
+        })
+        window.location.reload(false);
+        console.log("USUNIETO")
+    }
+    const nextProperty = () => {
+
+ 
+        const newIndex = Lid+1
+        setLid(Lid+1)
         setProperty(cityWeatherList[newIndex])
-        console.log(newIndex)
-        console.log(property)
+
+        console.log("New index:",newIndex)
+        console.log("Property:",property)
     }
     
     const prevProperty = () => {
-        const newIndex = property.id-2
+        const newIndex = Lid-1
+        setLid(Lid-1)
         setProperty(cityWeatherList[newIndex])
+        console.log("New index:",newIndex)
+        console.log("Property:",property)
     }
     if(loginStatus!=="unlogged"){
         return(
@@ -145,20 +165,20 @@ function UserPanel(){
                     <div className="user-cards">
                         <button className="left" 
                             onClick={() => nextProperty()} 
-                            disabled={property.id === cityWeatherList.length}
+                            disabled={Lid === cityWeatherList.length-1}
                         >Next
                         </button>
                         <button className="right"
                             onClick={() => prevProperty()} 
-                            disabled={property.id === 2}
+                            disabled={Lid === 0}
                         >Prev
                         </button>
                         <div className="main-cards">
                             <div className="userCards-slider">
                                 <div className="userCards-slider-wrapper" style={{
-                                                                          'transform':`translateX(-${property.id*(100/cityWeatherList.length-3)}%)`
+                                                                          'transform':`translateX(-${Lid*(100/cityWeatherList.length)}%)`
                                 }}>
-                                    {cityWeatherList.map(fde => <UserWeatherItem element={fde} />)}
+                                    {cityWeatherList.map(fde => <UserWeatherItem element={fde} deleteW={deleteWeather}/>)}
                                 </div>
                             </div>
                         </div>

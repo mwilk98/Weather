@@ -20,7 +20,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      expires: 60 * 60 * 24,
+      expires: 600 * 600 * 24,
     },
   })
 )
@@ -162,6 +162,20 @@ app.post('/api/weather', (req,res)=>{
       })
       }
   )
+app.post('/api/delete', (req,res)=>{
+    const id = req.body.id
+    console.log(id)
+    db.query(
+      "DELETE FROM my_weather where id=?;",
+      id,
+      (err,result)=>{
+        if(err){
+          res.send({err:err})
+        }
+          res.send(result)
+        })
+        }
+    )
 app.listen(3001,()=> {
     console.log('running on port 3001')
 })

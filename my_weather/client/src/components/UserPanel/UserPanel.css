@@ -22,7 +22,7 @@
 }
 .userCard .card{
     position: relative;
-    cursor: pointer;
+    
     margin: 0 auto;
 }
 .userCard .card .face{
@@ -182,6 +182,17 @@
     background:transparent;
 }
 .submit-btn2{
+    width: 85%;
+    padding:10px 30px;
+    cursor: pointer;
+    display: block;
+    margin:10px;
+    background:linear-gradient(to right, #108cff,#1cbb86);
+    border: 0;
+    outline: none;
+    border-radius: 30px;
+}
+.submit-btn3{
     width: 85%;
     padding:10px 30px;
     cursor: pointer;

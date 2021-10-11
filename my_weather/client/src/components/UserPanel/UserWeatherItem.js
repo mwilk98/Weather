@@ -1,12 +1,13 @@
 import React from 'react'
 
-const ForecastDailyItem=({element})=>{
-    const {city,date,time,weather,temp,clouds,humidity,pressure,wind,aqi,color} = element;
+const ForecastDailyItem=({element, deleteW: deleteW })=>{
+    const {id,city,date,time,weather,temp,clouds,humidity,pressure,wind,aqi,color} = element;
     return ( 
-        <div className="weatherCard">
+        <div className="userCard">
             <div className="card" >
                     <div className="face face1">
                         <div className="content">
+                        <p>{id}</p>
                         <p>{city}</p>
                         <p>{date} {time}</p>
                         {/*<p><img src={image} width="90" height="90" /></p>*/}
@@ -23,6 +24,7 @@ const ForecastDailyItem=({element})=>{
                                 <p>Jakość powietrza:<p className="aqi" style={{ 
                                                     color: conditionColors[color]
                                 }}> {aqi}</p></p>
+                                <p><button type="submit" className="submit-btn3" onClick={deleteW.bind(null,id)} >USUN</button></p>
                             </div>
                         </div>
                 </div>
