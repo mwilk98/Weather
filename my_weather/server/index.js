@@ -10,6 +10,8 @@ const session = require("express-session")
 const bcrypt = require("bcrypt")
 const saltRounds = 10
 
+var username2 = ""
+
 
 app.use(express.json())
 
@@ -46,7 +48,8 @@ const db = mysql.createPool({
 
 
 app.get('/api/get', (req,res)=>{
-    const sqlSelect= "SELECT * FROM my_weather"
+  
+    const sqlSelect= "SELECT * FROM user"+username2
     db.query(sqlSelect, (err,result)=>{
       res.send(result)
     })
@@ -65,7 +68,7 @@ app.post('/api/insert',(req,res)=>{
     const wind = req.body.wind
     const aqi = req.body.aqi
 
-    const sqlInsert= "INSERT INTO my_weather (city,date,time,weather,temp,clouds,humidity,pressure,wind,aqi) VALUES(?,?,?,?,?,?,?,?,?,?)"
+    const sqlInsert= "INSERT INTO user" + username2  +"(city,date,time,weather,temp,clouds,humidity,pressure,wind,aqi) VALUES(?,?,?,?,?,?,?,?,?,?)"
     db.query(sqlInsert,[cityName,
                         date,
                         time,
@@ -99,6 +102,12 @@ app.post('/api/register', (req,res)=>{
         console.log(err)
       }
     )
+    db.query(
+      "CREATE TABLE user"+ username+ "(id INT NOT NULL AUTO_INCREMENT,city varchar(255),date date,time varchar(255),weather varchar(255),temp int(3),clouds  int(3),humidity  int(3),pressure  int(3),wind  int(3),aqi  int(3),PRIMARY KEY (`id`))",
+      (err, result) => {
+        console.log(err)
+      }
+    )
   })
 })
 
@@ -114,6 +123,9 @@ app.post('/api/login', (req,res)=>{
 
   const username = req.body.username
   const password = req.body.password
+
+  username2 = username
+  console.log(username2)
 
   db.query(
     "SELECT * FROM users WHERE username = ?;",
@@ -166,7 +178,7 @@ app.post('/api/delete', (req,res)=>{
     const id = req.body.id
     console.log(id)
     db.query(
-      "DELETE FROM my_weather where id=?;",
+      "DELETE FROM user"+username2+" where id=?;",
       id,
       (err,result)=>{
         if(err){

@@ -157,6 +157,7 @@ function UserPanel(){
                             setAqi(e.target.value)
                         }}/>
                         <button type="submit" className="submit-btn2" onClick={submitWeather}>Dodaj</button>
+                        {loginStatus}
                     </div>
                 </div>   
 
@@ -196,6 +197,7 @@ function UserPanel(){
                     <div className="login-input-group" >
                         <h1>Musisz być zalogowanym aby korzystać z tej funkcji.</h1>
                         <Link to='/sign-up'><button type="submit" className="submit-btn" >Zaloguj</button></Link>
+                        {loginStatus}
                     </div>
                 </div>   
             </div>
