@@ -119,6 +119,14 @@ app.get("/api/login", (req,res)=>{
   }
 })
 
+app.get("/api/logout", (req,res)=>{
+  if (req.session.user) {
+    res.send({ loggedIn: false });
+  } else {
+    res.send({ loggedIn: true, user: req.session.user });
+  }
+})
+
 app.post('/api/login', (req,res)=>{
 
   const username = req.body.username
@@ -150,6 +158,12 @@ app.post('/api/login', (req,res)=>{
     }
   )
 
+})
+app.post('/api/logout', (req,res)=>{
+
+  req.session.user = ""
+  console.log(req.session.user)
+  res.send("")
 })
 
 app.get('/api/air', (req,res)=>{

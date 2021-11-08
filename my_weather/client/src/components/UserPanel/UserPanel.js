@@ -22,6 +22,8 @@ function UserPanel(){
     const [cityWeatherList, setcityWeatherList] = useState([])
     const [property, setProperty] = useState([])
 
+    Axios.defaults.withCredentials = true
+
     const [loginStatus, setLoginStatus] = useState('')
     console.log(loginStatus)
 
@@ -32,6 +34,7 @@ function UserPanel(){
                 setLoginStatus(response.data.user[0].username)
                 console.log(response)
             }else{
+                console.log(response)
                 setLoginStatus("unlogged")
             }
         })
@@ -80,6 +83,27 @@ function UserPanel(){
         })
         window.location.reload(false);
         console.log("USUNIETO")
+    }
+    const logout = () =>{
+        Axios.post('http://localhost:3001/api/logout')
+            .then((response) =>{
+            console.log(response)
+            if(response.data.message){
+                setLoginStatus("logged")
+            }else{
+                setLoginStatus("unlogged")
+            }
+        })
+        Axios.get('http://localhost:3001/api/logout').then((response)=>{
+            if(response.data.loggedIn===false){
+                console.log(response)
+                setLoginStatus("unlogged")
+            }else{
+                setLoginStatus("logged")
+                console.log(response)
+            }
+        })
+        window.location.reload(false);
     }
     const nextProperty = () => {
 
@@ -157,6 +181,7 @@ function UserPanel(){
                             setAqi(e.target.value)
                         }}/>
                         <button type="submit" className="submit-btn2" onClick={submitWeather}>Dodaj</button>
+                        <button type="submit" className="submit-btn2" onClick={logout}>Wyloguj</button>
                         {loginStatus}
                     </div>
                 </div>   
