@@ -1,8 +1,24 @@
 import React from 'react'
 
-const CompareCurrentWeatherItem=({element, compare })=>{
-    const {date,image,weather,temp,pressure,wind,source} = element;
-    const{weatherComp,tempComp,pressureComp,windComp} = compare
+const CompareCurrentWeatherItem=({element, compare })=>
+{
+    const
+    {
+        date,
+        image,
+        weather,
+        temp,
+        pressure,
+        wind,
+        source
+    } = element;
+    const
+    {
+        weatherComp,
+        tempComp,
+        pressureComp,
+        windComp
+    } = compare;
 
     return ( 
         <div className="compareCard">
@@ -26,6 +42,6 @@ const CompareCurrentWeatherItem=({element, compare })=>{
            </div>
         </div>
     )
-}
+};
 
-export default CompareCurrentWeatherItem
+export default CompareCurrentWeatherItem;

@@ -1,7 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-const CompareForecastItem=({element})=>{
-    const{
+const CompareForecastItem=({element})=>
+{
+    const
+    {
         image,
         weather,
         date,
@@ -12,7 +14,8 @@ const CompareForecastItem=({element})=>{
         clouds,
         humidity,
         sunrise,
-        sunset} = element
+        sunset
+    } = element;
     return ( 
         <div className="forecastCard">
             <div className="card" >
@@ -22,22 +25,24 @@ const CompareForecastItem=({element})=>{
                         <p><img src={image} width="90" height="90" alt="img"/></p>
                         <h3>{weather}</h3>
                         <p><img src={weatherIcons[5]} width="20" height="20" alt="img"/>max:{tempMax}&deg; <img src={weatherIcons[5]} width="20" height="20" alt="img"/>min:{tempMin}&deg;</p> 
-                        </div>
-                        </div>
-                        <div className="face face2">
-                            <div className="content">
-                                <p><img src={weatherIcons[1]} width="20" height="20" alt="img"/>{clouds}% <img src={weatherIcons[4]} width="20" height="20" alt="img"/>{humidity}%</p>
-                                <p></p>
-                                <p><img src={weatherIcons[2]} width="20" height="20" alt="img"/>{sunrise} <img src={weatherIcons[3]} width="20" height="20" alt="img"/>{sunset}</p>  
-                                <p><img src={weatherIcons[6]} width="20" height="20" alt="img"/>{pressure} hPa</p>  
-                                <p><img src={weatherIcons[7]} width="20" height="20" alt="img"/>{wind}km/h</p>
-                            </div>
-                        </div>
+                    </div>
                 </div>
+                <div className="face face2">
+                    <div className="content">
+                        <p><img src={weatherIcons[1]} width="20" height="20" alt="img"/>{clouds}% <img src={weatherIcons[4]} width="20" height="20" alt="img"/>{humidity}%</p>
+                        <p></p>
+                        <p><img src={weatherIcons[2]} width="20" height="20" alt="img"/>{sunrise} <img src={weatherIcons[3]} width="20" height="20" alt="img"/>{sunset}</p>  
+                        <p><img src={weatherIcons[6]} width="20" height="20" alt="img"/>{pressure} hPa</p>  
+                        <p><img src={weatherIcons[7]} width="20" height="20" alt="img"/>{wind}km/h</p>
+                    </div>
+                </div>
+            </div>
         </div>
     )
-}
-const weatherIcons = {
+};
+
+const weatherIcons = 
+{
     1:'/images/clouds.png',
     2:'/images/sunrise.png',
     3:'/images/sunset.png',
@@ -45,5 +50,6 @@ const weatherIcons = {
     5:'/images/temp.webp',
     6:'/images/pressure.png',
     7:'/images/wind.png',
-}
-export default CompareForecastItem
+};
+
+export default CompareForecastItem;
