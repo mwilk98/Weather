@@ -9,6 +9,9 @@ import ForecastDailyItem from './ForecastDailyItem';
 import ForecastHourlyItem from './ForecastHourlyItem';
 import './Forecast.css';
 import './CurrentWeather.css';
+import { Line } from 'react-chartjs-2';
+
+
 
 const API_key="157d33f8987d245bc6a1997408e90015"
 //const localTime = new Date().toLocaleString()
@@ -43,10 +46,31 @@ class CurrentWeather extends React.Component{
             dailyProperty: undefined,
             hourlyProperty: undefined,
             forecast:true,
-            error:false
+            error:false,
+            tempData:[],
+            tempTime:[],
+            data :{
+                labels: ['1', '2', '3', '4', '5', '6'],
+                datasets: [
+                  {
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    fill: false,
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgba(255, 99, 132, 0.2)',
+                  },
+                ],
+            },
+            options : {
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+            }
         }
     }
-
+    
     nextdailyProperty = () => {
         const newIndex = this.state.dailyProperty.id +1
         this.setState({
@@ -113,7 +137,8 @@ class CurrentWeather extends React.Component{
                 sunrise:CalTime(response.sys.sunrise,response.timezone),
                 sunset:CalTime(response.sys.sunset,response.timezone),
                 background:"/images/cloudyCity.jpg",
-                error:false
+                error:false,
+                
               }))
                       
             console.log("TEST:"+response.weather[0].id)
@@ -275,9 +300,26 @@ class CurrentWeather extends React.Component{
                         'image':weatherIcons[response.hourly[i].weather[0].id],
                         'clouds':response.hourly[i].clouds,
                     }],
-                    hourlyProperty:this.state.forecastHourlyElements[1]
+                    hourlyProperty:this.state.forecastHourlyElements[1],
+                    tempData:[...this.state.tempData,CalCelsius(response.hourly[i].temp)],
+                    tempTime:[...this.state.tempTime,CalTime(response.hourly[i].dt,response.timezone_offset)]
+                    
                 })
             }
+            this.setState({
+                data:{
+                    labels: this.state.tempTime,
+                    datasets: [
+                  {
+                    label: 'Temperatura:',
+                    data: this.state.tempData,
+                    fill: false,
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgba(255, 99, 132, 0.2)',
+                  },
+                ],
+                }
+            })
           })
     }
     inputHandler=(e)=>{

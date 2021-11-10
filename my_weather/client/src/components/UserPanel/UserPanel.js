@@ -75,9 +75,11 @@ function UserPanel(){
             wind:wind,
             aqi:aqi
         },])
+        window.location.reload(false);
     }
     const deleteWeather = (id) =>{
 
+        console.log(id)
         Axios.post('http://localhost:3001/api/delete',{
             id:id
         })

@@ -1,7 +1,10 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import { Line } from 'react-chartjs-2';
 const WeatherItem = props => {
     const{
+        data,
+        options,
         city,
         country,
         image,
@@ -52,6 +55,7 @@ const WeatherItem = props => {
                                                     <Link to='/air-condition' >
                                                     Sczegłóły
                                                     </Link>
+                                                    <Line data={data} options={options} />
                                 </p>
                             </div>
                         </div>
