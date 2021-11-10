@@ -1,8 +1,10 @@
-.main{
+.main
+{
     width: auto;
     height: auto;
 }
-.airCard{
+.airCard
+{
     pointer-events:all;
     width: 100%;
     position: relative;
@@ -10,82 +12,97 @@
     justify-content: space-between;
     overflow: hidden;
 }
-.airCard .card{
+    .airCard .card
+    {
     position: relative;
     cursor: pointer;
     margin: 0 auto;
-}
-.airCard .card .face{
-    width: 300px;
-    height: 200px;
-    transition: 0.5s;
-}
-.airCard .card .face.face1{
-    position: relative;
-    background: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-    transform: translateY(100px);
+    }
+        .airCard .card .face
+        {
+            width: 300px;
+            height: 200px;
+            transition: 0.5s;
+        }   
+            .airCard .card .face.face1
+            {
+                position: relative;
+                background: #333;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1;
+                transform: translateY(100px);
     
-}
-.airCard .card:hover .face.face1{
-    background: #ff0057;
-    transform: translateY(0);
+            }
+                .airCard .card .face.face1 .content
+                {
+                    opacity: 1;
+                    transition: 0.5s;
     
-}
-.airCard .card .face.face1 .content{
-    opacity: 1;
-    transition: 0.5s;
+                }
+                    .airCard .card .face.face1 .content h3
+                    {
+                        margin: 10px 0 0;
+                        padding: 0;
+                        color: #fff;
+                        text-align: center;
+                        font-size: 1.5em;
+                    }
+        .airCard .card:hover .face.face1
+        {
+            background: #ff0057;
+            transform: translateY(0);
     
-}
-.airCard .card:hover .face.face1 .content{
-    opacity: 1;
-    
-}
-.airCard .card .face.face1 .content h3{
-    margin: 10px 0 0;
-    padding: 0;
-    color: #fff;
+        }
+            .airCard .card:hover .face.face1 .content
+            {
+                opacity: 1;
+                
+            }
+
+        .airCard .card .face.face2
+        {
+            position: relative;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            transform: translateY(-100px);
+        }
+            .airCard .card .face.face2 .content p
+            {
+                margin: 0;
+                padding: 0;
+            }
+            .airCard .card .face.face2 .content a
+            {
+                margin: 15px 0 0;
+                display:  inline-block;
+                text-decoration: none;
+                font-weight: 900;
+                color: #333;
+                padding: 5px;
+                border: 1px solid #333;
+            }
+                .airCard .card .face.face2 .content a:hover
+                {
+                    background: #333;
+                    color: #fff;
+                }
+        .airCard .card:hover .face.face2
+        {
+            transform: translateY(0);
+        }
+.airCard p
+{
     text-align: center;
-    font-size: 1.5em;
 }
-.airCard .card .face.face2{
-    position: relative;
-    background: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-    transform: translateY(-100px);
-}
-.airCard .card:hover .face.face2{
-    transform: translateY(0);
-}
-.airCard .card .face.face2 .content p{
-    margin: 0;
-    padding: 0;
-}
-.airCard .card .face.face2 .content a{
-    margin: 15px 0 0;
-    display:  inline-block;
-    text-decoration: none;
-    font-weight: 900;
-    color: #333;
-    padding: 5px;
-    border: 1px solid #333;
-}
-.airCard .card .face.face2 .content a:hover{
-    background: #333;
-    color: #fff;
-}
-.airCard p{
-    text-align: center;
-}
-.city-form{
+.city-form
+{
     display: flex;
     flex-direction: column;
     align-items: center;

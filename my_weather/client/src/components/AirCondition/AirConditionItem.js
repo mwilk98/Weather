@@ -1,6 +1,8 @@
-import React from 'react'
-const AirConditionItem = props => {
-    const{
+import React from 'react';
+const AirConditionItem = props => 
+{
+    const
+    {
         city,
         country,
         date,
@@ -15,24 +17,28 @@ const AirConditionItem = props => {
         pm10,
         so2,
         color,  
-        error} = props.air
+        error
 
-        let content = null
+    } = props.air;
+
+    let content = null;
         
-
-        if(!error && city){
-            content = (
-                <div className="airCard">
-                    <div className="card" >
-                        <div className="face face1"style={{ 
-                        background: conditionColors[color]
-                        }}>
-                            <div className="content" >
-                                <p>{city}</p>
-                                <p>{country}</p>
-                                <p>{date}</p>
-                                <p>{time}</p>
-                                <p>{aqi}</p>
+    if(!error && city)
+    {
+        content = (
+            <div className="airCard">
+                <div className="card" >
+                    <div className="face face1" style={
+                                                { 
+                                                    background: conditionColors[color]
+                                                }
+                    }>
+                        <div className="content" >
+                            <p> {city} </p>
+                            <p> {country} </p>
+                            <p> {date} </p>
+                            <p> {time} </p>
+                            <p> {aqi} </p>
                         </div>
                     </div>
                     <div className="face face2">
@@ -49,22 +55,26 @@ const AirConditionItem = props => {
                     </div>
                 </div>
             </div>
-            )
-        }if(error && !city){
-            content=(
-                <h1>{error}</h1>
-            )
-        }
-    return (<div className="weatherCard">
-        {error ? `Brak danych dla podanego maista - ${city} nie istnieje lub zostało błędnie wpisane!` : content}
-
-    </div>
-    )}
-    const conditionColors = {
-        1:'green',
-        2:'lightgreen',
-        3:'yellow',
-        4:'red',
-        5:'purple',
+        )
     }
-export default AirConditionItem
+    if(error && !city)
+    {
+        content = (
+            <h1> {error} </h1>
+        );
+    }
+    return(
+    <div className="weatherCard">
+        {error ? `Brak danych dla podanego maista - ${city} nie istnieje lub zostało błędnie wpisane!` : content}
+    </div>
+    );
+};
+const conditionColors = 
+{
+    1:'green',
+    2:'lightgreen',
+    3:'yellow',
+    4:'red',
+    5:'purple',
+};
+export default AirConditionItem;
