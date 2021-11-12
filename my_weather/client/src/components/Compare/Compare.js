@@ -79,7 +79,7 @@ class Compare extends React.Component
             this.getForecastDailyWA(this.state.city);
         }
 
-        if(source==="TomorrowIO")
+        if(source==="TommorowIO")
         {
             this.getForecastDailyTI(this.state.lat,this.state.lon);
         }

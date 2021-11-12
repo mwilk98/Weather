@@ -1,11 +1,13 @@
-.hero{
+.hero
+{
     height: 100%;
     width: 100%;
     background-position: center;
     background-size: cover;
     position:absolute;
 }
-.form-box{
+.form-box
+{
     width: 380px;
     height: 480px;
     position: relative;
@@ -14,14 +16,16 @@
     padding: 5px;
     overflow: hidden;
 }
-.button-box{
+.button-box
+{
     width: 220px;
     margin: 35px auto;
     position: relative;
     box-shadow: 0 0 20px 9px #ff61241f;
     border-radius: 30px;
 }
-.toggle-btn{
+.toggle-btn
+{
     padding: 10px 30px;
     cursor: pointer;
     background:transparent;
@@ -29,7 +33,8 @@
     outline: none;
     position: relative;
 }
-.btn{
+.btn
+{
     top:0;
     left:0;
     position: absolute;
@@ -39,7 +44,8 @@
     border-radius: 30px;
     transition: 0.5s;
 }
-.input-field{
+.input-field
+{
     width: 100%;
     padding: 10px 0;
     margin:5px 0;
@@ -50,7 +56,8 @@
     outline: none;
     background:transparent;
 }
-.submit-btn{
+.submit-btn
+{
     width: 85%;
     padding:10px 30px;
     cursor: pointer;
@@ -64,26 +71,30 @@
 .check-box{
     margin:30px 10px 30px 0;
 }
-span{
+span
+{
     color:#777;
     font-size: 12px;
     bottom: 68px;
     position: absolute;
 }
-.login-input-group{
+.login-input-group
+{
     top:180px;
     position: absolute;
     width: 280px;
     transition: 0.5s;
     left:50px;
 }
-.register-input-group{
+.register-input-group
+{
     top:180px;
     position: absolute;
     width: 280px;
     transition: 0.5s;
     left:450px;
 }
-h1{
+h1
+{
     text-align: center;
 }

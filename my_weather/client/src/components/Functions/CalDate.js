@@ -1,4 +1,5 @@
-function CalDate(time){
+function CalDate(time)
+{
 
     var date = new Date(time * 1000);
     var year = date.getFullYear();
@@ -11,4 +12,4 @@ function CalDate(time){
 
 }
 
-export default CalDate
+export default CalDate;

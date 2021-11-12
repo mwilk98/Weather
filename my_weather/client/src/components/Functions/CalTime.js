@@ -1,4 +1,5 @@
-function CalTime(time,timezone){
+function CalTime(time,timezone)
+{
 
     var date = new Date(time*1000+timezone*1000-7200000);
     var hours = date.getHours();
@@ -10,4 +11,4 @@ function CalTime(time,timezone){
     return daytime;
 }
 
-export default CalTime
+export default CalTime;

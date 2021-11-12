@@ -1,8 +1,9 @@
-function CalCelsius(temp){
+function CalCelsius(temp)
+{
 
-        let cell= Math.floor(temp-273.15)
+        let cell= Math.floor(temp-273.15);
 
         return cell;
 }
 
-export default CalCelsius
+export default CalCelsius;

@@ -1,17 +1,18 @@
 import './App.css';
 import CurrentWeather from './components/currentWeather/CurrentWeather';
 import Navbar from './Menu/Navbar'
-import {Router as Router, Switch, Route} from 'react-router-dom'
+import {Router as Router, Switch, Route} from 'react-router-dom';
 import UserPanel from './components/UserPanel/UserPanel';
 import AirCondition from './components/AirCondition/AirCondition';
-import Compare from './components/Compare/Compare'
-import SignUp from './components/SignUp/SignUp'
+import Compare from './components/Compare/Compare';
+import SignUp from './components/SignUp/SignUp';
 
 import { createBrowserHistory } from "history";
 
 const history = createBrowserHistory();
 
-function App() {
+function App() 
+{
   return (
     <Router history={history}>
       <Navbar/>
