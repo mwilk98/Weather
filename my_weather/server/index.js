@@ -40,6 +40,7 @@ app.use(
   })
 );
 
+
 const db = mysql.createPool(
   {
     host: "localhost",
@@ -111,7 +112,9 @@ app.post('/api/register', (req,res)=>
         ],
       (err, result) => 
       {
+        
         console.log(err)
+        
       }
     );
     db.query(
@@ -119,6 +122,10 @@ app.post('/api/register', (req,res)=>
       (err, result) => 
       {
         console.log(err)
+        res.send(
+          {
+            err:err
+          })
       }
     );
   });

@@ -231,7 +231,6 @@ function UserPanel()
                     <div className="login-input-group" >
                         <h1>Musisz być zalogowanym aby korzystać z tej funkcji.</h1>
                         <Link to='/sign-up'><button type="submit" className="submit-btn"> Zaloguj </button></Link>
-                        {loginStatus}
                     </div>
                 </div>   
             </div>

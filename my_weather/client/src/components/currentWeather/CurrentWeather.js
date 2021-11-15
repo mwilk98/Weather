@@ -186,8 +186,9 @@ class CurrentWeather extends React.Component{
               this.setState(state =>({
                 city:state.city,
                 country:response.sys.country,
-                date:CalDate(response.dt),
+                date:CalDate(response.dt,response.timezone),
                 time:CalTime(response.dt,response.timezone),
+                timezone:response.timezone,
                 weather:response.weather[0].description,
                 temp:CalCelsius(response.main.temp),
                 tempMax:CalCelsius(response.main.temp_max),
@@ -233,13 +234,11 @@ class CurrentWeather extends React.Component{
           .then(response => response.json())
           .then(response => {
               console.log(response)
-              this.getForecastDaily(response.coord.lat,response.coord.lon)
-              this.getForecastHourly(response.coord.lat,response.coord.lon)
-              this.getAirQuality(response.coord.lat,response.coord.lon)
               this.setState(state =>({
                 city:state.value,
                 country:response.sys.country,
-                date:CalDate(response.dt),
+                timezone:response.timezone,
+                date:CalDate(response.dt,response.timezone),
                 time:CalTime(response.dt,response.timezone),
                 weather:response.weather[0].description,
                 temp:CalCelsius(response.main.temp),
@@ -258,6 +257,9 @@ class CurrentWeather extends React.Component{
                 background:"/images/cloudyCity.jpg",
                 error:false
               }))
+              this.getForecastDaily(response.coord.lat,response.coord.lon)
+              this.getForecastHourly(response.coord.lat,response.coord.lon)
+              this.getAirQuality(response.coord.lat,response.coord.lon)
           })
           .catch(err =>{
             console.log(err)
@@ -314,11 +316,12 @@ class CurrentWeather extends React.Component{
           .then(response => response.json())
           .then(response => {
               console.log(response)
+              console.log(this.state.timezone)
               for (var i = 0; i < 8; i++) {
                 this.setState({
                     forecastDailyElements:[...this.state.forecastDailyElements,{
                         'id':i,
-                        'date':CalDate(response.daily[i].dt),
+                        'date':CalDate(response.daily[i].dt,this.state.timezone),
                         'weather':response.daily[i].weather[0].description,
                         'tempMax':CalCelsius(response.daily[i].temp.max),
                         'tempMin':CalCelsius(response.daily[i].temp.min),
@@ -360,7 +363,7 @@ class CurrentWeather extends React.Component{
                 this.setState({
                     forecastHourlyElements:[...this.state.forecastHourlyElements,{
                         'id':i,
-                        'date':CalDate(response.hourly[i].dt),
+                        'date':CalDate(response.hourly[i].dt,this.state.timezone),
                         'time':CalTime(response.hourly[i].dt,response.timezone_offset),
                         'weather':response.hourly[i].weather[0].description,
                         'temp':CalCelsius(response.hourly[i].temp),

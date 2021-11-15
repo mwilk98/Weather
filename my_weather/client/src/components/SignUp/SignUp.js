@@ -32,7 +32,18 @@ function SignUp()
         }).then((response) =>
         {
             console.log(response);
+            if(!response.data.err){
+                
+                alert(`Dodano użytkownika ${username}`)
+                //window.location.reload(false);
+                loginBtn()
+            }else{
+
+                alert(`Nie dodano użytkownika ${username} ponieważ taki już istnieje!`)
+            }
         })
+        
+        
     }
 
     const login = () => 
@@ -142,7 +153,6 @@ function SignUp()
 
                         <Link to='/my-weather'><button type="submit" className="submit-btn"> Powrót </button></Link>
 
-                        <h1>{loginStatus}</h1> 
                     </div>
                     <div className="register-input-group"   style={
                                                             {

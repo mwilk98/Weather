@@ -79,7 +79,7 @@
     
 }
 .forecastCard .card:hover .face.face1{
-    background: #0c6bd1;
+    background: #ececec;
     transform: translateY(0);
     
 }
@@ -95,7 +95,7 @@
 .forecastCard .card .face.face1 .content h3{
     margin: 10px 0 0;
     padding: 0;
-    color: #fff;
+    color: rgb(3, 3, 3);
     text-align: center;
     font-size: 1.5em;
 }
