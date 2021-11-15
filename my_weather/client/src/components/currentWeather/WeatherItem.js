@@ -27,6 +27,7 @@ const WeatherItem = ({element, selectD: selectD }) => {
         sunset,
         aqi,
         color,
+        pm2_5,
         error} = element;
         
 
@@ -74,9 +75,12 @@ const WeatherItem = ({element, selectD: selectD }) => {
                         }>
                         <p>Jakość powietrza:</p>
                         <p>  {aqi}</p>
+                        <p>({Math.floor((pm2_5/35)*100)}%)</p>
                         <p>
                             <Link to='/air-condition' >
-                                    Sczegłóły
+                                <button type="button">
+                                   Szczegóły
+                                </button>
                             </Link>
                         </p>
                         

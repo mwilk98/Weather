@@ -24,6 +24,7 @@ class CurrentWeather extends React.Component{
             city:"",
             country:"",
             aqi:undefined,
+            pm2_5:undefined,
             image:undefined,
             background:undefined,
             weather:undefined,
@@ -281,6 +282,7 @@ class CurrentWeather extends React.Component{
               console.log(response2)
               this.setState(state =>({
                 aqi:airConditions[response2.list[0].main.aqi],
+                pm2_5:response2.list[0].components.pm2_5,
                 color:response2.list[0].main.aqi,
                 error:false
               }))
@@ -484,18 +486,18 @@ class CurrentWeather extends React.Component{
                         {dailyProperty ?( 
                         <div className="forecast-cards">
                             <button className="left" 
-                                onClick={() => this.nextdailyProperty()} 
-                                disabled={dailyProperty.id === forecastDailyElements.length-3}
-                            >Next
+                                onClick={() => this.prevdailyProperty()} 
+                                disabled={dailyProperty.id === 1}
+                            >Prev
                             </button>
                             <button className="swap-button"
                                 onClick={() => this.setForecast()} 
                             >GODZINOWA
                             </button>
                             <button className="right"
-                                    onClick={() => this.prevdailyProperty()} 
-                                    disabled={dailyProperty.id === 1}
-                            >Prev
+                                    onClick={() => this.nextdailyProperty()} 
+                                    disabled={dailyProperty.id === forecastDailyElements.length-3}
+                            >Next
                             </button>
                             <div className="main-cards">  
                                 <div className="cards-slider">         
@@ -533,8 +535,8 @@ class CurrentWeather extends React.Component{
                     {hourlyProperty ?( 
                     <div className="forecast-cards">
                         <button className="left" 
-                            onClick={() => this.nextHourlyProperty()} 
-                            disabled={hourlyProperty.id === forecastHourlyElements.length-3}
+                            onClick={() => this.prevHourlyProperty()} 
+                            disabled={hourlyProperty.id === 1}
                         >Next
                         </button>
                         <button className="swap-button"
@@ -542,8 +544,8 @@ class CurrentWeather extends React.Component{
                         >DZIENNA
                         </button>
                         <button className="right"
-                                onClick={() => this.prevHourlyProperty()} 
-                                disabled={hourlyProperty.id === 1}
+                                onClick={() => this.nextHourlyProperty()} 
+                                disabled={hourlyProperty.id === forecastHourlyElements.length-3}
                         >Prev
                         </button>
                         <div className="main-cards">  

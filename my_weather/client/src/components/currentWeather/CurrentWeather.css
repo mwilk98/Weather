@@ -34,7 +34,12 @@
 }
 .currentWeatherMain .conditionsAqi {
     margin-left: 5%;
+    margin-top: 1%;
     width: 25%;
+    border-radius: 50%;
+  background: #73AD21;
+  padding: 20px;
+
 }
 .currentWeatherMain .chart{
     position: relative;
