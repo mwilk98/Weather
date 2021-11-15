@@ -48,6 +48,8 @@ class CurrentWeather extends React.Component{
             forecast:true,
             error:false,
             tempData:[],
+            tempPress:[],
+            tempHumid:[],
             tempTime:[],
             data :{
                 labels: ['1', '2', '3', '4', '5', '6'],
@@ -61,12 +63,63 @@ class CurrentWeather extends React.Component{
                   },
                 ],
             },
+            data2 :{
+                labels: ['1', '2', '3', '4', '5', '6'],
+                datasets: [
+                  {
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    fill: false,
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgba(255, 99, 132, 0.2)',
+                  },
+                ],
+            },
+            data3 :{
+                labels: ['1', '2', '3', '4', '5', '6'],
+                datasets: [
+                  {
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    fill: false,
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgba(255, 99, 132, 0.2)',
+                  },
+                ],
+            },
             options : {
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            color: 'black'
+                        }
+                    }
+                },
+                maintainAspectRatio: false,
                 scales: {
-                  y: {
-                    beginAtZero: true
-                  }
-                }
+                    y: {  
+                        ticks: {
+                          color: "black", 
+                          font: {
+                            size: 10,
+                          },
+                          stepSize: 1,
+                          beginAtZero: true
+                        }
+                      },
+                      x: { 
+                        ticks: {
+                          color: "black", 
+                        
+                          font: {
+                            size: 14 
+                          },
+                          stepSize: 1,
+                          beginAtZero: true
+                        }
+                      }
+                },
             }
         }
     }
@@ -272,7 +325,11 @@ class CurrentWeather extends React.Component{
 
         this.setState({
             forecastHourlyElements:[
-            ]
+            ],
+            tempData:[],
+            tempTime:[],
+            tempPress:[],
+            tempHumid:[],
         })
         
         fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&lang=pl&appid=${API_key}`)
@@ -302,7 +359,9 @@ class CurrentWeather extends React.Component{
                     }],
                     hourlyProperty:this.state.forecastHourlyElements[1],
                     tempData:[...this.state.tempData,CalCelsius(response.hourly[i].temp)],
-                    tempTime:[...this.state.tempTime,CalTime(response.hourly[i].dt,response.timezone_offset)]
+                    tempTime:[...this.state.tempTime,CalTime(response.hourly[i].dt,response.timezone_offset)],
+                    tempPress:[...this.state.tempPress,response.hourly[i].pressure],
+                    tempHumid:[...this.state.tempHumid,response.hourly[i].humidity],
                     
                 })
             }
@@ -314,11 +373,36 @@ class CurrentWeather extends React.Component{
                     label: 'Temperatura:',
                     data: this.state.tempData,
                     fill: false,
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgba(255, 99, 132, 0.2)',
+                    backgroundColor: 'rgb(209, 157, 12)',
+                    borderColor: 'rgb(0, 0, 0)',
+                  },
+                ],
+                },
+                data2:{
+                    labels: this.state.tempTime,
+                    datasets: [
+                  {
+                    label: 'Ciśnienie:',
+                    data: this.state.tempPress,
+                    fill: false,
+                    backgroundColor: 'rgb(209, 157, 12)',
+                    borderColor: 'rgb(0, 0, 0)',
+                  },
+                ],
+                },
+                data3:{
+                    labels: this.state.tempTime,
+                    datasets: [
+                  {
+                    label: 'Wilgotność:',
+                    data: this.state.tempHumid,
+                    fill: false,
+                    backgroundColor: 'rgb(209, 157, 12)',
+                    borderColor: 'rgb(0, 0, 0)',
                   },
                 ],
                 }
+                
             })
           })
     }
@@ -358,7 +442,7 @@ class CurrentWeather extends React.Component{
                         </div> 
                         <div className="current-main">
                             {this.state.city ?(
-                            <WeatherItem weather={this.state}/>   
+                            <WeatherItem weather={this.state} />   
                             ):null}
                         </div>
                     <div className="forecast-main">

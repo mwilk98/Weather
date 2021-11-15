@@ -1,9 +1,13 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import { Line } from 'react-chartjs-2';
+
 const WeatherItem = props => {
+    
     const{
         data,
+        data2,
+        data3,
         options,
         city,
         country,
@@ -24,45 +28,73 @@ const WeatherItem = props => {
         aqi,
         color,
         error} = props.weather
+        
 
         let content = null
 
+        function setChartData(condition)
+        {
+        }
         if(!error && city){
             content = (
-                <div className="card" >
-                    <div className="face face1">
-                        <div className="content">
-                        <p>{city} {country}</p>
-                        <p>{date} {time}</p>
-                        <p><img src={image} width="90" height="90" alt="img"/></p>
-                        <h3>{weather}</h3>
-                        <p><img src={weatherIcons[5]} width="20" height="20" alt="img"/> {temp}&deg;</p>
+                <div className="currentWeatherMain" >
+                    <div className="conditions" >
+                        <div className="conditionsMain" >
+                            <h1>{city} {country}</h1>
+                            <p>{date} {time}</p>
+                            <p><img src={image} width="90" height="90" alt="img"/></p>
+                            <p>{weather}</p>
+                        </div>
+                        <div className="conditionsTemp" >
+                            <p><img src={weatherIcons[5]} width="20" height="20" alt="img"/> {temp}&deg;</p>
+                            <p><img src={weatherIcons[5]} width="20" height="20" alt="img"/>odczuwalna {tempFeel}&deg;</p>
+                            <p>
+                                <img src={weatherIcons[5]} width="20" height="20" alt="img"/>max:{tempMax}&deg; 
+                                <img src={weatherIcons[5]} width="20" height="20" alt="img"/>min:{tempMin}&deg;      
+                            </p>  
+                        </div>
+                        <div className="conditionsOther" >
+                        <p>
+                            <img src={weatherIcons[1]} width="20" height="20" alt="img"/>{clouds}% 
+                            <img src={weatherIcons[4]} width="20" height="20" alt="img"/>{humidity}%
+                            <p><img src={weatherIcons[6]} width="20" height="20" alt="img"/>{pressure} hPa</p>  
+                            <p><img src={weatherIcons[7]} width="20" height="20" alt="img"/>{wind}km/h</p>
+                            </p>
+                        </div>
+                        <div className="conditionsSun" >
+                            <p>
+                                <img src={weatherIcons[2]} width="20" height="20" alt="img"/>{sunrise} 
+                                <img src={weatherIcons[3]} width="20" height="20" alt="img"/>{sunset}
+                            </p>
+                        </div>
+                        <div className="conditionsAqi" style={
+                                            { 
+                                                background: conditionColors[color]
+                                            }
+                        }>
+                        <p>Jakość powietrza:</p>
+                        <p>  {aqi}</p>
+                        <p>
+                            <Link to='/air-condition' >
+                                    Sczegłóły
+                            </Link>
+                        </p>
+                        
                         </div>
                         </div>
-                        <div className="face face2">
-                            <div className="content">
-                                <p><img src={weatherIcons[1]} width="20" height="20" alt="img"/>{clouds}% <img src={weatherIcons[4]} width="20" height="20" alt="img"/>{humidity}%</p>
-                                <p></p>
-                                <p><img src={weatherIcons[2]} width="20" height="20" alt="img"/>{sunrise} <img src={weatherIcons[3]} width="20" height="20" alt="img"/>{sunset}</p>
-                                <p><img src={weatherIcons[5]} width="20" height="20" alt="img"/>odczuwalna {tempFeel}&deg;</p>
-                                <p><img src={weatherIcons[5]} width="20" height="20" alt="img"/>max:{tempMax}&deg; <img src={weatherIcons[5]} width="20" height="20" alt="img"/>min:{tempMin}&deg;</p>  
-                                <p><img src={weatherIcons[6]} width="20" height="20" alt="img"/>{pressure} hPa</p>  
-                                <p><img src={weatherIcons[7]} width="20" height="20" alt="img"/>{wind}km/h</p>
-                                <p>Jakość powietrza:</p>
-                                <p className="aqi" style={{ 
-                                                    color: conditionColors[color]
-                                                    }}> {aqi}
-                                                    <Link to='/air-condition' >
-                                                    Sczegłóły
-                                                    </Link>
-                                                    <Line data={data} options={options} />
-                                </p>
-                            </div>
+                        <p>
+                            <button  onClick={() => setChartData(1)}> Temperatura</button>
+                            <button  onClick={() => setChartData(2)}> Ciśnienie</button>
+                            <button  onClick={() => setChartData(3)}> Wilgotność</button>
+                        </p>
+                        <div className="chart" >
+                        <p><Line data={data} options={options} width={"30%"} /></p>
                         </div>
+
                 </div>
             )
         }
-    return (<div className="weatherCard">
+    return (<div className="main">
         {error ? `Brak danych dla podanego maista - ${city} nie istnieje lub zostało błędnie wpisane!` : content}
 
     </div>
@@ -84,4 +116,5 @@ const WeatherItem = props => {
         4:'red',
         5:'purple',
     }
+    
 export default WeatherItem

@@ -1,7 +1,46 @@
 .main{
-min-height: 1080px;
+    text-align: center;
 }
-
+.currentWeatherMain{
+    background: #0c6bd1;
+    margin-left: 20%;
+    margin-right: 20%;
+    width: 60%;
+    
+}
+.currentWeatherMain .conditions{
+    position: relative;
+    display: flex;
+    
+}
+.currentWeatherMain .conditionsMain{
+    margin-left: 5%;
+    
+}
+.currentWeatherMain .conditionsTemp{
+    margin-left: 5%;
+}
+.currentWeatherMain .conditionsTemp p{
+    text-align: left;  
+}
+.currentWeatherMain .conditionsOther {
+    margin-left: 5%;
+}
+.currentWeatherMain .conditionsOther p{
+    text-align: left;  
+}
+.currentWeatherMain .conditionsSun {
+    margin-left: 5%;
+}
+.currentWeatherMain .conditionsAqi {
+    margin-left: 5%;
+    width: 25%;
+}
+.currentWeatherMain .chart{
+    position: relative;
+    display: block;
+    
+}
 
 .weatherCard{
     width: 100%;

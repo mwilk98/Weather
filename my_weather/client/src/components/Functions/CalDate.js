@@ -6,7 +6,7 @@ function CalDate(time)
     var month = date.getMonth()+1;
     var day = date.getDate();
 
-    var daytime = day + '-' + 0 + month + '-' + year;
+    var daytime = day + '-' + month + '-' + year;
 
     return daytime;
 
