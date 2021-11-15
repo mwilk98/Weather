@@ -2,7 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import { Line } from 'react-chartjs-2';
 
-const WeatherItem = props => {
+const WeatherItem = ({element, selectD: selectD }) => {
     
     const{
         data,
@@ -27,7 +27,7 @@ const WeatherItem = props => {
         sunset,
         aqi,
         color,
-        error} = props.weather
+        error} = element;
         
 
         let content = null
@@ -83,9 +83,9 @@ const WeatherItem = props => {
                         </div>
                         </div>
                         <p>
-                            <button  onClick={() => setChartData(1)}> Temperatura</button>
-                            <button  onClick={() => setChartData(2)}> Ciśnienie</button>
-                            <button  onClick={() => setChartData(3)}> Wilgotność</button>
+                            <button  onClick={selectD.bind(null,1)}> Temperatura</button>
+                            <button  onClick={selectD.bind(null,2)}> Ciśnienie</button>
+                            <button  onClick={selectD.bind(null,3)}> Wilgotność</button>
                         </p>
                         <div className="chart" >
                         <p><Line data={data} options={options} width={"30%"} /></p>
@@ -94,7 +94,7 @@ const WeatherItem = props => {
                 </div>
             )
         }
-    return (<div className="main">
+    return (<div className="weatherCard">
         {error ? `Brak danych dla podanego maista - ${city} nie istnieje lub zostało błędnie wpisane!` : content}
 
     </div>

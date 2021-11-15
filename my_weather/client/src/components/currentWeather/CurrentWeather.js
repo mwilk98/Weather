@@ -63,6 +63,18 @@ class CurrentWeather extends React.Component{
                   },
                 ],
             },
+            data1 :{
+                labels: ['1', '2', '3', '4', '5', '6'],
+                datasets: [
+                  {
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    fill: false,
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgba(255, 99, 132, 0.2)',
+                  },
+                ],
+            },
             data2 :{
                 labels: ['1', '2', '3', '4', '5', '6'],
                 datasets: [
@@ -366,7 +378,7 @@ class CurrentWeather extends React.Component{
                 })
             }
             this.setState({
-                data:{
+                data1:{
                     labels: this.state.tempTime,
                     datasets: [
                   {
@@ -404,6 +416,9 @@ class CurrentWeather extends React.Component{
                 }
                 
             })
+            this.setState({
+                data:this.state.data1
+            })
           })
     }
     inputHandler=(e)=>{
@@ -425,6 +440,26 @@ class CurrentWeather extends React.Component{
             })
         }
     }
+    selectData = (dataC) => {
+        if(dataC==1)
+        {
+            this.setState({
+                data:this.state.data1
+            })
+        }
+        if(dataC==2)
+        {
+            this.setState({
+                data:this.state.data2
+            })
+        }
+        if(dataC==3)
+        {
+            this.setState({
+                data:this.state.data3
+            })
+        }
+    }
     render(){
         const {forecastDailyElements, forecastHourlyElements, dailyProperty, hourlyProperty}=this.state
         if(this.state.forecast){
@@ -442,7 +477,7 @@ class CurrentWeather extends React.Component{
                         </div> 
                         <div className="current-main">
                             {this.state.city ?(
-                            <WeatherItem weather={this.state} />   
+                            <WeatherItem element={this.state} selectD={this.selectData}/>   
                             ):null}
                         </div>
                     <div className="forecast-main">
@@ -491,7 +526,7 @@ class CurrentWeather extends React.Component{
                     </div> 
                     <div className="current-main">
                         {this.state.city ?(
-                        <WeatherItem weather={this.state}/>   
+                        <WeatherItem element={this.state} selectD={this.selectData}/>  
                         ):null}
                     </div>
                 <div className="forecast-main">
