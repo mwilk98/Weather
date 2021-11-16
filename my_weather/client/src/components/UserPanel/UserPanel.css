@@ -63,7 +63,7 @@
                     }
         .userCard .card:hover .face.face1
         {
-            background: #ff0057;
+            background: #ffffff;
             transform: translateY(0);
             
         }
@@ -163,7 +163,7 @@
 .form-box2
 {
     width: 380px;
-    height: 580px;
+    height: 600px;
     position: relative;
     margin:auto;
     background:#fff;
@@ -176,7 +176,7 @@
     margin: 35px auto;
     position: relative;
     box-shadow: 0 0 20px 9px #ff61241f;
-    border-radius: 30px;
+    border-radius: 20px;
 }
 .toggle-btn2
 {
@@ -195,7 +195,7 @@
     width: 110px;
     height: 100%;
     background:linear-gradient(to right, #108cff,#1cbb86);
-    border-radius: 30px;
+    border-radius: 20px;
     transition: 0.5s;
 }
 .input-field2
@@ -220,7 +220,7 @@
     background:linear-gradient(to right, #108cff,#1cbb86);
     border: 0;
     outline: none;
-    border-radius: 30px;
+    border-radius: 20px;
 }
 .submit-btn3
 {
@@ -232,7 +232,7 @@
     background:linear-gradient(to right, #108cff,#1cbb86);
     border: 0;
     outline: none;
-    border-radius: 30px;
+    border-radius: 20px;
 }
 .check-box2
 {

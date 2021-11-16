@@ -21,7 +21,7 @@
     width: 220px;
     margin: 35px auto;
     position: relative;
-    box-shadow: 0 0 20px 9px #ff61241f;
+    box-shadow: 0 0 20px 9px #24ffe21f;
     border-radius: 30px;
 }
 .toggle-btn
@@ -52,7 +52,7 @@
     border-left: 0;
     border-top: 0;
     border-right: 0;
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid rgb(153, 153, 153);
     outline: none;
     background:transparent;
 }

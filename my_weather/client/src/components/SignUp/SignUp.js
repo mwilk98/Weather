@@ -162,8 +162,8 @@ function SignUp()
                         <input type="text" className="input-field" placeholder="Nazwa Użytkownika" required 
                         onChange={(e)=>{setUsernameReg(e.target.value)}}/>
 
-                        <input type="email" className="input-field" placeholder="email" required/>
-                        
+                       {// <input type="email" className="input-field" placeholder="email" required/>
+                        }   
                         <input type="text" className="input-field" placeholder="Hasło" required
                         onChange={(e)=>{setPasswordReg(e.target.value)}}/>
 

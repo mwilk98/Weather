@@ -157,42 +157,41 @@ function UserPanel()
                         <input type="text" className="input-field2" placeholder="Miejsce" required 
                         onChange={(e)=>{setCityName(e.target.value)}}/>
 
-                        <input type="text" className="input-field2" placeholder="Data" required 
+                        <input type="date" className="input-field2" placeholder="Data" required 
                         onChange={(e)=>{setDate(e.target.value)}}/>
 
-                        <input type="text" className="input-field2" placeholder="Godzina" required 
+                        <input type="time" className="input-field2" placeholder="Godzina" required 
                         onChange={(e)=>{setTime(e.target.value)}}/>
 
                         <input type="text" className="input-field2" placeholder="Pogoda" required 
                         onChange={(e)=>{setWeatherState(e.target.value)}}/>
 
-                        <input type="text" className="input-field2" placeholder="Temperatura (°C)" required 
+                        <input type="number" min="-100" max="100" className="input-field2" placeholder="Temperatura (°C)" required 
                         onChange={(e)=>{setTemp(e.target.value)}}/>
 
-                        <input type="text" className="input-field2" placeholder="Zachmurzenie (%)" required 
+                        <input type="number" min="0" max="100" className="input-field2" placeholder="Zachmurzenie (%)" required 
                         onChange={(e)=>{setClouds(e.target.value)}}/>
 
-                        <input type="text" className="input-field2" placeholder="Wilgotność" required 
+                        <input type="number" min="0" max="100" className="input-field2" placeholder="Wilgotność" required 
                         onChange={(e)=>{setHumidity(e.target.value)}}/>
 
-                        <input type="text" className="input-field2" placeholder="Ciśnienie (hPa)" required 
+                        <input type="number" min="850" max="1100" className="input-field2" placeholder="Ciśnienie (hPa)" required 
                         onChange={(e)=>{setPressure(e.target.value)}}/>
 
-                        <input type="text" className="input-field2" placeholder="Wiatr (km/h)" required 
+                        <input type="number" min="0" max="500" className="input-field2" placeholder="Wiatr (km/h)" required 
                         onChange={(e)=>{setWind(e.target.value)}}/>
 
-                        <input type="text" className="input-field2" placeholder="Jakość powietrza (1-5)" 
+                        <input type="number" min="1" max="5" className="input-field2" placeholder="Jakość powietrza (1-5)" 
                         required onChange={(e)=>{setAqi(e.target.value)}}/>
 
                         <button type="submit" className="submit-btn2" onClick={submitWeather}> Dodaj </button>
 
                         <button type="submit" className="submit-btn2" onClick={logout}> Wyloguj </button>
-
-                        {loginStatus}
+                        
                     </div>
                 </div>   
                 <div className="user-main">
-                {property ?(
+                
                     <div className="user-cards">
                         <button className="left" 
                             onClick={() => nextProperty()} 
@@ -206,6 +205,7 @@ function UserPanel()
                         </button>
                         <div className="main-cards">
                             <div className="userCards-slider">
+                            {property ?(
                                 <div className="userCards-slider-wrapper"   style={
                                                                             {
                                                                                 'transform':`translateX(-${Lid*(100/cityWeatherList.length)}%)`
@@ -213,10 +213,11 @@ function UserPanel()
                                 }>
                                     {cityWeatherList.map(fde => <UserWeatherItem element={fde} deleteW={deleteWeather}/>)}
                                 </div>
+                                ):null}
                             </div>
                         </div>
                     </div>
-                ):null}
+                
                 </div> 
             </div>
         )

@@ -20,6 +20,7 @@ class CurrentWeather extends React.Component
 {
     constructor(props)
     {
+        
         super(props)
         this.state=
         {
@@ -43,6 +44,7 @@ class CurrentWeather extends React.Component
             humidity:undefined,
             sunrise:undefined,
             sunset:undefined,
+            content:undefined,
             forecastDailyElements:[],
             forecastHourlyElements:[],
             Property: undefined,
@@ -137,6 +139,8 @@ class CurrentWeather extends React.Component
             }
         }
     }
+
+    
     nextProperty = (Property,Elements) => 
     {
         const newIndex = Property.id +1;
@@ -309,7 +313,7 @@ class CurrentWeather extends React.Component
         })
     };
 
-    getForecastDaily = (lat,lon)=>
+    getForecastDaily = (lat,lon,typeF)=>
     {
         this.setState(
         {
@@ -516,6 +520,14 @@ class CurrentWeather extends React.Component
         
         if(this.state.forecast)
         {
+            this.state.content = (
+                this.state.forecastDailyElements.map(fde => <ForecastDailyItem key={fde.id} element={fde} />)
+            )
+        }else{
+            this.state.content = (
+                this.state.forecastHourlyElements.map(fde => <ForecastHourlyItem key={fde.id} element={fde} />)
+            )
+        }
             return(
                     <div className="main"   style={
                                             { 
@@ -566,7 +578,7 @@ class CurrentWeather extends React.Component
                                                                                         'transform':`translateX(-${this.state.Property.id*(100/this.state.forecastDailyElements.length)}%)`
                                                                                     }
                                             }>
-                                                {this.state.forecastDailyElements.map(fde => <ForecastDailyItem key={fde.id} element={fde} />)}
+                                                {this.state.content}
                                             </div>
                                         </div>
                                     </div>
@@ -576,66 +588,6 @@ class CurrentWeather extends React.Component
                     </div>
                 )
         }
-        else
-        {
-            return(
-                <div className="main"   style={
-                                        { 
-                                            backgroundImage: `url("/images/bg.jpg")` 
-                                        }
-                }>
-                    <div className="city-form">
-                        <h1>Wyszukaj miasto dla którego chcesz sprawdzić obecne warunki pogodowe oraz prognozy pogody</h1>
-                        <Form 
-                            value={this.state.value}  
-                            handler={this.inputHandler}
-                            submit={this.getWeather}
-                        /> 
-                    </div> 
-                    <div className="current-main">
-                        {this.state.city ?(
-                        <WeatherItem element={this.state} selectD={this.selectData}/>  
-                        ):null}
-                    </div>
-                    <div className="forecast-main">
-                        {this.state.Property ?( 
-                            <div className="forecast-cards">
-                                <button className="left" 
-                                        onClick={() => this.prevProperty(this.state.Property,this.state.forecastHourlyElements)} 
-                                        disabled={this.state.Property.id === 0}
-                                >
-                                    Next
-                                </button>
-                                <button className="swap-button"
-                                        onClick={() => this.setForecast()} 
-                                >
-                                    DZIENNA
-                                </button>
-                                <button className="right"
-                                        onClick={() => this.nextProperty(this.state.Property,this.state.forecastHourlyElements)} 
-                                    disabled={this.state.Property.id === this.state.forecastHourlyElements.length-3}
-                                >
-                                    Prev
-                                </button>
-                                <div className="main-cards">  
-                                    <div className="cards-slider">         
-                                        <div className="cards-slider-wrapper"   style={
-                                                                                {
-                                                                                    'transform':`translateX(-${this.state.Property.id*(100/this.state.forecastHourlyElements.length)}%)`
-                                                                                }
-                                        }>
-                                            {this.state.forecastHourlyElements.map(fde => <ForecastHourlyItem key={fde.id} element={fde} />)}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ):null}
-                    </div>
-                </div>
-            )
-        }
-        
-    }
 };
 
 const weatherIcons = 

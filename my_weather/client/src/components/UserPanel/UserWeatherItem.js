@@ -17,14 +17,15 @@ const ForecastDailyItem=({element, deleteW: deleteW })=>
         aqi,
         color
     } = element;
+        var dateToJs = new Date(date);
+        dateToJs = (dateToJs.getMonth() + 1) + '-' + dateToJs.getDate() + '-' + dateToJs.getFullYear()
     return ( 
         <div className="userCard">
             <div className="card" >
                     <div className="face face1">
                         <div className="content">
-                            <p>{id}</p>
                             <p>{city}</p>
-                            <p>{date} {time}</p>
+                            <p>{dateToJs} {time}</p>
                             {/*<p><img src={image} width="90" height="90" /></p>*/}
                             <h3>{weather}</h3>
                             <p><img src={weatherIcons[5]} width="20" height="20" alt="img"/> {temp}&deg;</p>
