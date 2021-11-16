@@ -1,7 +1,9 @@
 import React from 'react'
 
-const ForecastDailyItem=({element})=>{
-    const{
+const ForecastDailyItem=({element})=>
+{
+    const
+    {
         image,
         weather,
         date,
@@ -12,7 +14,8 @@ const ForecastDailyItem=({element})=>{
         clouds,
         humidity,
         sunrise,
-        sunset} = element
+        sunset
+    } = element;
     return ( 
         <div className="forecastCard">
             <div className="card" >
@@ -36,8 +39,10 @@ const ForecastDailyItem=({element})=>{
                 </div>
         </div>
     )
-}
-const weatherIcons = {
+};
+
+const weatherIcons = 
+{
     1:'/images/clouds.png',
     2:'/images/sunrise.png',
     3:'/images/sunset.png',
@@ -45,5 +50,6 @@ const weatherIcons = {
     5:'/images/temp.webp',
     6:'/images/pressure.png',
     7:'/images/wind.png',
-}
-export default ForecastDailyItem
+};
+
+export default ForecastDailyItem;
