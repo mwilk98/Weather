@@ -52,7 +52,7 @@ class AirCondition extends React.Component
             {
                 city:state.value,
                 country:response.sys.country,
-                date:CalDate(response.dt),
+                date:CalDate(response.dt,response.timezone),
                 time:CalTime(response.dt,response.timezone), 
                 error:false
             }));

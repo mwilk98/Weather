@@ -1,5 +1,5 @@
 :root{
-    --primary: #1888ff;
+    --primary: #ffffff;
 }
 
 .btnMenu{
@@ -8,7 +8,7 @@
     outline: none;
     border: none;
     font-size: 18px;
-    color: #fff;
+    color: rgb(0, 0, 0);
     cursor:pointer;
     background-color: var(--primary);
 }
