@@ -163,7 +163,7 @@
 .form-box2
 {
     width: 380px;
-    height: 600px;
+    height: 780px;
     position: relative;
     margin:auto;
     background:#fff;
@@ -264,4 +264,8 @@ span
 h1
 {
     text-align: center;
+}
+select{
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

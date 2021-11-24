@@ -3,21 +3,43 @@ import './UserPanel.css';
 import Axios from 'axios';
 import UserWeatherItem from './UserWeatherItem';
 import {Link} from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
 function UserPanel()
 {
 
     const [Lid, setLid] = useState('');
-    const [cityName, setCityName] = useState('');
-    const [date, setDate] = useState('');
-    const [time, setTime] = useState('');
-    const [weatherState, setWeatherState] = useState('');
-    const [temp, setTemp] = useState('');
-    const [clouds, setClouds] = useState('');
-    const [humidity, setHumidity] = useState('');
-    const [pressure, setPressure] = useState('');
-    const [wind, setWind] = useState('');
-    const [aqi, setAqi] = useState('');
+
+    const { register, handleSubmit, formState: { errors }} = useForm();
+  const onSubmit = (values) => {
+    Axios.post('http://localhost:3001/api/insert',
+        {
+            cityName:values.cityName,
+            date:values.date,
+            time:values.time,
+            weatherState:values.weatherState,
+            temp:values.temp,
+            clouds:values.clouds,
+            humidity:values.humidity,
+            pressure:values.pressure,
+            wind:values.wind,
+            aqi:values.aqi
+        });
+        setcityWeatherList([...cityWeatherList,{
+            cityName:values.cityName,
+            date:values.date,
+            time:values.time,
+            weatherState:values.weatherState,
+            temp:values.temp,
+            clouds:values.clouds,
+            humidity:values.humidity,
+            pressure:values.pressure,
+            wind:values.wind,
+            aqi:values.aqi
+        },]);
+        window.location.reload(false);
+  };
+
 
     const [cityWeatherList, setcityWeatherList] = useState([]);
     const [property, setProperty] = useState([]);
@@ -56,35 +78,6 @@ function UserPanel()
         setProperty(cityWeatherList[Lid]);
     },[])
 
-    const submitWeather = () =>
-    {
-        Axios.post('http://localhost:3001/api/insert',
-        {
-            cityName:cityName,
-            date:date,
-            time:time,
-            weatherState:weatherState,
-            temp:temp,
-            clouds:clouds,
-            humidity:humidity,
-            pressure:pressure,
-            wind:wind,
-            aqi:aqi
-        });
-        setcityWeatherList([...cityWeatherList,{
-            cityName:cityName,
-            date:date,
-            time:time,
-            weatherState:weatherState,
-            temp:temp,
-            clouds:clouds,
-            humidity:humidity,
-            pressure:pressure,
-            wind:wind,
-            aqi:aqi
-        },]);
-        window.location.reload(false);
-    }
     const deleteWeather = (id) =>
     {
         console.log(id);
@@ -153,41 +146,76 @@ function UserPanel()
             }>
                 <div className="form-box2">
                     <div className="login-input-group2">
+                    <form onSubmit={handleSubmit(onSubmit)}>
 
-                        <input type="text" className="input-field2" placeholder="Miejsce" required 
-                        onChange={(e)=>{setCityName(e.target.value)}}/>
 
+                        Miejsce
+                        <input type="text" name = "message"  className="input-field2" placeholder="Miejsce" required 
+                        {...register("cityName", {
+                            required: "Required",
+                        })}
+                        />
+                        Data
                         <input type="date" className="input-field2" placeholder="Data" required 
-                        onChange={(e)=>{setDate(e.target.value)}}/>
-
+                        {...register("date", {
+                            required: "Required",
+                        })}/>
+                        Godzina
                         <input type="time" className="input-field2" placeholder="Godzina" required 
-                        onChange={(e)=>{setTime(e.target.value)}}/>
-
-                        <input type="text" className="input-field2" placeholder="Pogoda" required 
-                        onChange={(e)=>{setWeatherState(e.target.value)}}/>
-
+                        {...register("time", {
+                            required: "Required",
+                        })}/>
+                        Pogoda
+                        <td></td>
+                        <select {...register("weatherState", {
+                            required: "Required",
+                        })}>
+                                <option value="Czyste Niebo">Czyste Niebo</option>
+                                <option value="Lekkie Zachmurzenie">Lekkie Zachmurzenie</option>
+                                <option value="Zachmurzenie">Zachmurzenie</option>
+                                <option value="Duże Zachmurzenie">Duże Zachmurzenie</option>
+                                <option value="Przejaśnienia">Przejaśnienia</option>
+                                <option value="Lekki deszcz">Lekki deszcz</option>
+                                <option value="Deszcz">Deszcz</option>
+                                <option value="Burza">Burza</option>
+                                <option value="Śnieg">Śnieg</option>
+                                <option value="Mgła">Mgła</option>
+                        </select>
+                        <td></td>
+                        Temperatura
                         <input type="number" min="-100" max="100" className="input-field2" placeholder="Temperatura (°C)" required 
-                        onChange={(e)=>{setTemp(e.target.value)}}/>
-
+                        {...register("temp", {
+                            required: "Required",
+                        })}/>
+                        Zachmurzenie
                         <input type="number" min="0" max="100" className="input-field2" placeholder="Zachmurzenie (%)" required 
-                        onChange={(e)=>{setClouds(e.target.value)}}/>
-
+                        {...register("clouds", {
+                            required: "Required",
+                        })}/>
+                        Wilgotność
                         <input type="number" min="0" max="100" className="input-field2" placeholder="Wilgotność" required 
-                        onChange={(e)=>{setHumidity(e.target.value)}}/>
-
+                        {...register("humidity", {
+                            required: "Required",
+                        })}/>
+                        Ciśnienie
                         <input type="number" min="850" max="1100" className="input-field2" placeholder="Ciśnienie (hPa)" required 
-                        onChange={(e)=>{setPressure(e.target.value)}}/>
-
+                        {...register("pressure", {
+                            required: "Required",
+                        })}/>
+                        Wiatr
                         <input type="number" min="0" max="500" className="input-field2" placeholder="Wiatr (km/h)" required 
-                        onChange={(e)=>{setWind(e.target.value)}}/>
-
+                        {...register("wind", {
+                            required: "Required",
+                        })}/>
+                        Jakość powietrza
                         <input type="number" min="1" max="5" className="input-field2" placeholder="Jakość powietrza (1-5)" 
-                        required onChange={(e)=>{setAqi(e.target.value)}}/>
-
-                        <button type="submit" className="submit-btn2" onClick={submitWeather}> Dodaj </button>
-
+                        {...register("aqi", {
+                            required: "Required",
+                        })}/>
+                        <input type="submit" className="submit-btn2" /> 
+                        {errors.message && errors.message.message}
                         <button type="submit" className="submit-btn2" onClick={logout}> Wyloguj </button>
-                        
+                        </form>
                     </div>
                 </div>   
                 <div className="user-main">
