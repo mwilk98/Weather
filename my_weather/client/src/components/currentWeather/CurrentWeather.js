@@ -215,7 +215,6 @@ class CurrentWeather extends React.Component
                     image:weatherIcons[response.weather[0].id+1000],
                 })
             }
-            console.log(this.state.image);
         })
         .catch(err =>
         {
@@ -270,6 +269,11 @@ class CurrentWeather extends React.Component
                 background:"/images/cloudyCity.jpg",
                 error:false
               }))
+              if(this.state.time>this.state.sunset){
+                this.setState({
+                    image:weatherIcons[response.weather[0].id+1000],
+                })
+            }
               this.getForecastDaily(response.coord.lat,response.coord.lon)
               this.getForecastHourly(response.coord.lat,response.coord.lon)
               this.getAirQuality(response.coord.lat,response.coord.lon)
