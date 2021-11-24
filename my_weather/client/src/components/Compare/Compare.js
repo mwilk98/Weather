@@ -179,8 +179,8 @@ class Compare extends React.Component
             {
                 console.log(response);
                 console.log(this.state.compareCurrentElements[0]);
-                const newIds = this.state.compareCurrentElements.slice(); //copy the array
-                newIds[0].image = response[0].path; //execute the manipulations
+                const newIds = this.state.compareCurrentElements.slice(); 
+                newIds[0].image = response[0].path; 
                 this.setState(
                 {
                     compareCurrentElements: newIds

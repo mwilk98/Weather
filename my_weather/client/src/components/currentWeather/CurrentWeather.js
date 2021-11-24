@@ -47,6 +47,7 @@ class CurrentWeather extends React.Component
             content:undefined,
             forecastDailyElements:[],
             forecastHourlyElements:[],
+            forecastElements:[],
             Property: undefined,
             hourlyProperty: undefined,
             forecast:true,
@@ -182,7 +183,7 @@ class CurrentWeather extends React.Component
         .then(response => response.json())
         .then(response => 
         {
-            console.log(response)
+
             this.getForecastDaily(response.coord.lat,response.coord.lon)
             this.getForecastHourly(response.coord.lat,response.coord.lon)
             this.getAirQuality(response.coord.lat,response.coord.lon)
@@ -210,11 +211,13 @@ class CurrentWeather extends React.Component
                 background:"/images/cloudyCity.jpg",
                 error:false,
             }))
-            if(this.state.time>this.state.sunset){
-                this.setState({
-                    image:weatherIcons[response.weather[0].id+1000],
-                })
-            }
+            for(var i=0; i<12;i++){
+                if((this.state.time>this.state.sunset) && (response.weather[0].id==nightIcons[i])){
+                    this.setState({
+                        image:weatherIcons[response.weather[0].id+1000],
+                    })
+                }
+              }
         })
         .catch(err =>
         {
@@ -245,6 +248,7 @@ class CurrentWeather extends React.Component
         .then(response => response.json())
         .then(response => 
         {
+            console.log(response)
             this.setState(state =>(
             {
                 city:state.value,
@@ -269,11 +273,14 @@ class CurrentWeather extends React.Component
                 background:"/images/cloudyCity.jpg",
                 error:false
               }))
-              if(this.state.time>this.state.sunset){
-                this.setState({
-                    image:weatherIcons[response.weather[0].id+1000],
-                })
-            }
+              for(var i=0; i<12;i++){
+                if((this.state.time>this.state.sunset) && (response.weather[0].id==nightIcons[i])){
+                    this.setState({
+                        image:weatherIcons[response.weather[0].id+1000],
+                    })
+                }
+              }
+              
               this.getForecastDaily(response.coord.lat,response.coord.lon)
               this.getForecastHourly(response.coord.lat,response.coord.lon)
               this.getAirQuality(response.coord.lat,response.coord.lon)
@@ -492,7 +499,9 @@ class CurrentWeather extends React.Component
             this.setState(
             {
                 forecast:false,
-                Property:this.state.forecastHourlyElements[0]
+                Property:this.state.forecastHourlyElements[0],  
+                forecastElements:[],  
+                forecastElements:this.state.forecastHourlyElements
             })
         }
         else
@@ -500,7 +509,9 @@ class CurrentWeather extends React.Component
             this.setState(
             {
                 forecast:true,
-                Property:this.state.forecastDailyElements[0]
+                Property:this.state.forecastDailyElements[0],
+                forecastElements:[],
+                forecastElements:this.state.forecastDailyElements
             })
         }
     };
@@ -535,6 +546,7 @@ class CurrentWeather extends React.Component
                 this.state.forecastDailyElements.map(fde => <ForecastDailyItem key={fde.id} element={fde} />)
             )
         }else{
+
             this.state.content = (
                 this.state.forecastHourlyElements.map(fde => <ForecastHourlyItem key={fde.id} element={fde} />)
             )
@@ -565,7 +577,7 @@ class CurrentWeather extends React.Component
                                                                 { 
                                                                 backgroundImage: `url("/images/arrow_left.png")` 
                                                                 }}
-                                            onClick={() => this.prevProperty(this.state.Property,this.state.forecastDailyElements)} 
+                                            onClick={() => this.prevProperty(this.state.Property,this.state.forecastElements)} 
                                             disabled={this.state.Property.id === 0}
                                     >
                                     </button>
@@ -578,15 +590,15 @@ class CurrentWeather extends React.Component
                                                                 { 
                                                                     backgroundImage: `url("/images/arrow_right.png")` 
                                                                 }}
-                                            onClick={() => this.nextProperty(this.state.Property,this.state.forecastDailyElements)} 
-                                            disabled={this.state.Property.id === this.state.forecastDailyElements.length-3}
+                                            onClick={() => this.nextProperty(this.state.Property,this.state.forecastElements)} 
+                                            disabled={this.state.Property.id === this.state.forecastElements.length-3}
                                         >
                                     </button>
                                     <div className="main-cards">  
                                         <div className="cards-slider">         
                                             <div className="cards-slider-wrapper"   style={
                                                                                     {
-                                                                                        'transform':`translateX(-${this.state.Property.id*(100/this.state.forecastDailyElements.length)}%)`
+                                                                                        'transform':`translateX(-${this.state.Property.id*(100/this.state.forecastElements.length)}%)`
                                                                                     }
                                             }>
                                                 {this.state.content}
@@ -600,7 +612,21 @@ class CurrentWeather extends React.Component
                 )
         }
 };
-
+const nightIcons = {
+    0:230,
+    1:300,
+    2:310,
+    3:500,
+    4:520,
+    5:600,
+    6:612,
+    7:615,
+    8:620,
+    9:800,
+    10:801,
+    11:802,
+    12:803
+}
 const weatherIcons = 
 {
     200:'/images/200.png',
