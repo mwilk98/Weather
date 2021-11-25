@@ -54,14 +54,18 @@ function SignUp()
             password:password
         }).then((response) =>
         {
-            console.log(response);
+            console.log(response.data.err);
             if(response.data.message)
             {
+                alert(response.data.message)
                 setLoginStatus("unlogged");
             }else
             {
                 setLoginStatus("logged");
                 history.push("/my-weather");
+            }
+            if(response.data.err){
+                alert("Błąd servera - offline")
             }
         })
     }

@@ -187,6 +187,7 @@ app.post('/api/login', (req,res)=>
             err:err
           })
       }
+      if(result){
       if(result.length>0)
       {
           bcrypt.compare(password,result[0].password,(err, response)=>
@@ -198,14 +199,17 @@ app.post('/api/login', (req,res)=>
               res.send(result);
             }else
             {
-              res.send({message:"Wrong username/password combination!"});
+              res.send({message:"Złe hasło"});
             }
           })
       }else
       {
-        res.send({message:"User doesn't exist"});
+        res.send({message:"Użytkownik nie istnieje"});
       }
+    }else{
+      console.log("server off")
     }
+  }
   );
 });
 app.post('/api/logout', (req,res)=>

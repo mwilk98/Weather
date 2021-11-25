@@ -68,10 +68,16 @@ function UserPanel()
         Axios.get('http://localhost:3001/api/get')
         .then((response)=>
         {
-            setcityWeatherList(response.data);
-            setProperty(response.data[0]);
-            console.log(response);
-            console.log("PropertyGet:",property);
+            
+                setcityWeatherList(response.data);
+                setProperty(response.data[0]);
+                console.log(response);
+                console.log("PropertyGet:",property);
+            
+            if(property.length==0){
+                alert("Błąd servera - offline")
+            }
+            
         });
         
         setLid(0);
