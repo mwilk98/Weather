@@ -17,7 +17,7 @@ const CompareForecastItem=({element})=>
         sunset
     } = element;
     return ( 
-        <div className="forecastCard">
+        <div className="compare-forecast-card">
             <div className="card" >
                 <div className="face face1">
                     <div className="content">

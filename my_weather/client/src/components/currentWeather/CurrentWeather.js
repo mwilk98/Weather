@@ -51,6 +51,7 @@ class CurrentWeather extends React.Component
             Property: undefined,
             hourlyProperty: undefined,
             forecast:true,
+            tpyeOfForecast:undefined,
             error:false,
             tempData:[],
             tempPress:[],
@@ -212,7 +213,7 @@ class CurrentWeather extends React.Component
                 error:false,
             }))
             for(var i=0; i<12;i++){
-                if((this.state.time>this.state.sunset) && (response.weather[0].id==nightIcons[i])){
+                if((this.state.time>this.state.sunset) && (this.state.time<this.state.sunrise)&&(response.weather[0].id==nightIcons[i])){
                     this.setState({
                         image:weatherIcons[response.weather[0].id+1000],
                     })
@@ -280,7 +281,6 @@ class CurrentWeather extends React.Component
                     })
                 }
               }
-              
               this.getForecastDaily(response.coord.lat,response.coord.lon)
               this.getForecastHourly(response.coord.lat,response.coord.lon)
               this.getAirQuality(response.coord.lat,response.coord.lon)
@@ -374,7 +374,9 @@ class CurrentWeather extends React.Component
             }
             this.setState(
             {
-                Property:this.state.forecastDailyElements[0]
+                Property:this.state.forecastDailyElements[0],
+                forecastElements:this.state.forecastDailyElements,
+                tpyeOfForecast:"Godzinowa"
             })  
           })
     };
@@ -501,7 +503,8 @@ class CurrentWeather extends React.Component
                 forecast:false,
                 Property:this.state.forecastHourlyElements[0],  
                 forecastElements:[],  
-                forecastElements:this.state.forecastHourlyElements
+                forecastElements:this.state.forecastHourlyElements,
+                tpyeOfForecast:"Dzienna"
             })
         }
         else
@@ -511,7 +514,8 @@ class CurrentWeather extends React.Component
                 forecast:true,
                 Property:this.state.forecastDailyElements[0],
                 forecastElements:[],
-                forecastElements:this.state.forecastDailyElements
+                forecastElements:this.state.forecastDailyElements,
+                tpyeOfForecast:"Godzinowa"
             })
         }
     };
@@ -584,7 +588,7 @@ class CurrentWeather extends React.Component
                                     <button className="swap-button"
                                         onClick={() => this.setForecast()} 
                                     >
-                                        GODZINOWA
+                                        {this.state.tpyeOfForecast}
                                     </button>
                                     <button className="right"   style={
                                                                 { 

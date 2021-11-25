@@ -37,6 +37,7 @@ class Compare extends React.Component
             tempComp:undefined,
             pressureComp:undefined,
             windComp:undefined,
+            content:undefined,
             error:false
         };
     };
@@ -120,9 +121,10 @@ class Compare extends React.Component
             this.getWeatherVisualcrossing(city)
             this.getWeatherWeatherbit(city)
             this.setState({
+                timezone:response.timezone,
                 compareCurrentElements:[...this.state.compareCurrentElements,{
                     'id':1,
-                    'date':CalDate(response.dt),
+                    'date':CalDate(response.dt,response.timezone),
                     'weather':response.weather[0].description,
                     'temp':CalCelsius(response.main.temp),
                     'pressure':response.main.pressure,
@@ -156,37 +158,6 @@ class Compare extends React.Component
                 }
             });
         });
-
-        result.then(r =>
-        {
-            console.log(r.weather[0].id);
-            
-            fetch(`http://localhost:3001/api/weather`,
-            {
-                method: 'post',
-                body: JSON.stringify({id: 200}),
-                headers: {'Content-Type': 'application/json'}})
-            .then(response => 
-            {
-                if(response.ok)
-                {
-                    return response;
-                }
-                throw Error("Błąd pobierania danych z API");
-            })
-            .then(response => response.json())
-            .then(response => 
-            {
-                console.log(response);
-                console.log(this.state.compareCurrentElements[0]);
-                const newIds = this.state.compareCurrentElements.slice(); 
-                newIds[0].image = response[0].path; 
-                this.setState(
-                {
-                    compareCurrentElements: newIds
-                });
-            });
-        });
     };
     getWeatherCompare = (e) =>
     {
@@ -213,6 +184,7 @@ class Compare extends React.Component
             this.getWeatherVisualcrossing(this.state.value)
             this.getWeatherWeatherbit(this.state.value)
             this.setState({
+                timezone:response.timezone,
                 compareCurrentElements:[...this.state.compareCurrentElements,{
                     'id':1,
                     'date':CalDate(response.dt),
@@ -249,37 +221,6 @@ class Compare extends React.Component
                 }
             });
         });
-
-        result.then(r =>
-        {
-            console.log(r.weather[0].id);
-            
-            fetch(`http://localhost:3001/api/weather`,
-            {
-                method: 'post',
-                body: JSON.stringify({id: 200}),
-                headers: {'Content-Type': 'application/json'}})
-            .then(response => 
-            {
-                if(response.ok)
-                {
-                    return response;
-                }
-                throw Error("Błąd pobierania danych z API");
-            })
-            .then(response => response.json())
-            .then(response => 
-            {
-                console.log(response);
-                console.log(this.state.compareCurrentElements[0]);
-                const newIds = this.state.compareCurrentElements.slice(); //copy the array
-                newIds[0].image = response[0].path; //execute the manipulations
-                this.setState(
-                {
-                    compareCurrentElements: newIds
-                });
-            });
-        });
     };
 
     getForecastDailyOWM = (lat,lon)=>
@@ -310,7 +251,7 @@ class Compare extends React.Component
                     ForecastDailyElements:[...this.state.ForecastDailyElements,
                     {
                         'id':i,
-                        'date':CalDate(response.daily[i].dt),
+                        'date':CalDate(response.daily[i].dt,this.state.timezone),
                         'weather':response.daily[i].weather[0].description,
                         'tempMax':CalCelsius(response.daily[i].temp.max),
                         'tempMin':CalCelsius(response.daily[i].temp.min),
@@ -443,8 +384,20 @@ class Compare extends React.Component
             if(response.ok)
             {
                 return response;
+            }else{
+
+                this.setState(
+                    {
+                        compareCurrentElements:[...this.state.compareCurrentElements,
+                        {
+                            'id':3,
+                            'source':"API TommorowIo jest aktualnie niedostępne"
+                        }],
+                    });
+                throw Error("Błąd pobierania danych z API");
             }
-            throw Error("Błąd pobierania danych z API");
+            
+
         })
         .then(response => response.json())
         .then(response => 
@@ -609,7 +562,7 @@ class Compare extends React.Component
                     ForecastDailyElements:[...this.state.ForecastDailyElements,
                     {
                         'id':i,
-                        'date':CalDate(response.location.values[i].datetime),
+                        'date':response.location.values[i].datetime,
                         'weather':response.location.values[i].conditions,
                         'tempMax':response.location.values[i].maxt,
                         'tempMin':response.location.values[i].mint,
@@ -756,6 +709,82 @@ class Compare extends React.Component
         this.getDefaultCompare("Warszawa");
     }
     render(){
+        
+        if(this.state.error)
+        {
+            this.state.content = (
+                <h1>USŁUGA JEST AKTUALNIE NIEDOSTĘPNA</h1>
+            )
+        }else{
+
+            this.state.content = (
+                <><div className="compare-main-cards">
+                    {this.state.currentProperty ? (
+                        <div className="compare-main-cards-slider">
+                            <div className="compare-main-cards-slider-wrapper" style={{
+                                'transform': `translateX(-${this.state.currentProperty.id * (100 / this.state.compareCurrentElements.length)}%)`
+                            }}>
+                                {this.state.compareCurrentElements.map(fde => <CompareCurrentWeatherItem compare={this.state} key={fde.id} element={fde} />)}
+                            </div>
+
+                        </div>
+                    ) : null}
+                </div><div className="compare-forecast-main">
+                        <button
+                            onClick={() => this.setSource("OpenWeatherMap")}
+                        >
+                            OpenWeatherMap
+                        </button>
+                        <button
+                            onClick={() => this.setSource("WeatherApi")}
+                        >
+                            WeatherApi
+                        </button>
+                        <button
+                            onClick={() => this.setSource("TommorowIO")}
+                        >
+                            TommorowIO
+                        </button>
+                        <button
+                            onClick={() => this.setSource("VisualCrossing")}
+                        >
+                            VisualCrossing
+                        </button>
+                        <button
+                            onClick={() => this.setSource("Weatherbit")}
+                        >
+                            Weatherbit
+                        </button>
+                        {this.state.Property ? (
+                            <div className="compare-forecast-cards">
+                                <button className="left" style={{
+                                    backgroundImage: `url("/images/arrow_left.png")`
+                                }}
+                                    onClick={() => this.prevProperty(this.state.Property, this.state.ForecastDailyElements)}
+                                    disabled={this.state.Property.id === 0}
+                                >
+                                </button>
+                                <button className="right" style={{
+                                    backgroundImage: `url("/images/arrow_right.png")`
+                                }}
+                                    onClick={() => this.nextProperty(this.state.Property, this.state.ForecastDailyElements)}
+                                    disabled={this.state.Property.id === this.state.ForecastDailyElements.length - 3}
+                                >
+                                </button>
+                                <div className="compare-forecast-cards">
+                                    <div className="compare-forecast-cards-slider">
+                                        <div className="compare-forecast-cards-slider-wrapper" style={{
+                                            'transform': `translateX(-${this.state.Property.id * (100 / this.state.ForecastDailyElements.length)}%)`
+                                        }}>
+                                            {this.state.ForecastDailyElements.map(fde => <CompareForecastItem key={fde.id} element={fde} />)}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : null}
+                    </div></>
+            )
+        }
             return( 
                 <div    style={
                         { 
@@ -769,72 +798,7 @@ class Compare extends React.Component
                             submit={this.getWeatherCompare}
                         /> 
                     </div>
-                    <div className="compare-main-cards">
-                        {this.state.currentProperty ?( 
-                            <div className="compare-cards-slider">
-                                <div className="compare-cards-slider-wrapper"   style={
-                                                                                {
-                                                                                    'transform':`translateX(-${this.state.currentProperty.id*(100/this.state.compareCurrentElements.length)}%)`
-                                                                                }
-                                }>
-                                    {this.state.compareCurrentElements.map(fde => <CompareCurrentWeatherItem compare={this.state} key={fde.id} element={fde} />)}
-                                </div>
-                        
-                            </div>
-                    ):null}
-                    </div>
-                    <button 
-                        onClick={() => this.setSource("OpenWeatherMap")} 
-                    >
-                        OpenWeatherMap
-                    </button>
-                    <button 
-                        onClick={() => this.setSource("WeatherApi")} 
-                    >
-                        WeatherApi
-                    </button>
-                    <button 
-                        onClick={() => this.setSource("TommorowIO")} 
-                    >
-                        TommorowIO
-                    </button>
-                    <button 
-                        onClick={() => this.setSource("VisualCrossing")}
-                    >
-                        VisualCrossing
-                    </button>
-                    <button 
-                        onClick={() => this.setSource("Weatherbit")}
-                    >
-                        Weatherbit
-                    </button>
-                    <div className="compare-main">
-                        {this.state.Property ?(
-                            <div className="main-cards"> 
-                                <button className="left" 
-                                    onClick={() => this.nextProperty(this.state.Property,this.state.ForecastDailyElements)} 
-                                    disabled={this.state.Property.id === this.state.ForecastDailyElements.length-3}
-                                >
-                                    Next
-                                </button>
-                                <button className="right"
-                                    onClick={() => this.prevProperty(this.state.Property,this.state.ForecastDailyElements)} 
-                                    disabled={this.state.Property.id === 1}
-                                >
-                                    Prev
-                                </button>
-                                <div className="cards-slider">         
-                                    <div className="cards-slider-wrapper"   style={
-                                                                            {
-                                                                                'transform':`translateX(-${this.state.Property.id*(100/this.state.ForecastDailyElements.length)}%)`
-                                                                            }
-                                    }>
-                                        {this.state.ForecastDailyElements.map(fde => <CompareForecastItem key={fde.id} element={fde} />)}
-                                    </div>
-                                </div>
-                            </div>
-                            ):null}
-                    </div>
+                    {this.state.content}
                 </div>
             )
     }

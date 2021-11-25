@@ -212,7 +212,7 @@ function UserPanel()
                         {...register("aqi", {
                             required: "Required",
                         })}/>
-                        <input type="submit" className="submit-btn2" /> 
+                        <input type="submit" className="submit-btn2" value="Dodaj"/> 
                         {errors.message && errors.message.message}
                         <button type="submit" className="submit-btn2" onClick={logout}> Wyloguj </button>
                         </form>
@@ -221,16 +221,22 @@ function UserPanel()
                 <div className="user-main">
                 
                     <div className="user-cards">
-                        <button className="left" 
-                            onClick={() => nextProperty()} 
-                            disabled={Lid === cityWeatherList.length-1}
-                        >Next
-                        </button>
-                        <button className="right"
-                            onClick={() => prevProperty()} 
-                            disabled={Lid === 0}
-                        >Prev
-                        </button>
+                        <button className="left"    style={
+                                                                { 
+                                                                backgroundImage: `url("/images/arrow_left.png")` 
+                                                                }}
+                                                                onClick={() => nextProperty()} 
+                                                                disabled={Lid === cityWeatherList.length-1}
+                                    >
+                                    </button>
+                                    <button className="right"   style={
+                                                                { 
+                                                                    backgroundImage: `url("/images/arrow_right.png")` 
+                                                                }}
+                                                                onClick={() => prevProperty()} 
+                                                                disabled={Lid === 0}
+                                        >
+                                    </button>
                         <div className="main-cards">
                             <div className="userCards-slider">
                             {property ?(
