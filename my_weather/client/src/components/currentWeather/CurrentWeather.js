@@ -178,8 +178,13 @@ class CurrentWeather extends React.Component
             if(response.ok)
             {
                 return response;
+            }else{
+                this.setState(state =>(
+                    {
+                        city:state.value,
+                    }))
+            throw Error("Błąd pobierania danych z API")
             }
-                throw Error("Błąd pobierania danych z API");
         })
         .then(response => response.json())
         .then(response => 
@@ -226,7 +231,7 @@ class CurrentWeather extends React.Component
             this.setState(prevState =>
             {
                 return{
-                error:true,
+                errorCity:true,
                 city:prevState.city
             }})
         })
@@ -236,6 +241,11 @@ class CurrentWeather extends React.Component
     {
         
         e.preventDefault()
+        this.setState(
+            {
+                forecastDailyElements:[],
+                forecastHourlyElements:[]
+            })
           
         fetch(`http://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&lang=pl&APPID=${API_key}`)
         .then(response => 
@@ -243,8 +253,14 @@ class CurrentWeather extends React.Component
             if(response.ok)
             {
                 return response;
+            }else{
+                this.setState(state =>(
+                    {
+                        city:state.value,
+                    }))
+            throw Error("Błąd pobierania danych z API")
             }
-                throw Error("Błąd pobierania danych z API")
+            
         })
         .then(response => response.json())
         .then(response => 

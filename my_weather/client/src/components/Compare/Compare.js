@@ -38,7 +38,9 @@ class Compare extends React.Component
             pressureComp:undefined,
             windComp:undefined,
             content:undefined,
-            error:false
+            error:false,
+            errorOWM:false,
+            errorCity:false
         };
     };
 
@@ -105,7 +107,7 @@ class Compare extends React.Component
             compareCurrentElements:[]
         });
         
-        const result = fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=pl&APPID=${API_key_OWM}`)
+        fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=pl&APPID=${API_key_OWM}`)
         .then(response => {
             if(response.ok){
                 return response
@@ -154,6 +156,7 @@ class Compare extends React.Component
             {
                 return{
                 error:true,
+                errorOWM:true,
                 city:prevState.city
                 }
             });
@@ -170,10 +173,16 @@ class Compare extends React.Component
         
         const result = fetch(`http://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&lang=pl&APPID=${API_key_OWM}`)
         .then(response => {
-            if(response.ok){
-                return response
-            }
+            if(response.ok)
+            {
+                return response;
+            }else{
+                this.setState(state =>(
+                    {
+                    city:state.value,
+                    }))
             throw Error("Błąd pobierania danych z API")
+            }
         })
         .then(response => response.json())
         .then(response => {
@@ -185,6 +194,7 @@ class Compare extends React.Component
             this.getWeatherWeatherbit(this.state.value)
             this.setState({
                 timezone:response.timezone,
+                errorCity:false,
                 compareCurrentElements:[...this.state.compareCurrentElements,{
                     'id':1,
                     'date':CalDate(response.dt),
@@ -217,6 +227,7 @@ class Compare extends React.Component
             {
                 return{
                 error:true,
+                errorCity:true,
                 city:prevState.city
                 }
             });
@@ -710,12 +721,16 @@ class Compare extends React.Component
     }
     render(){
         
-        if(this.state.error)
+        if(this.state.errorOWM)
         {
             this.state.content = (
-                <h1>USŁUGA JEST AKTUALNIE NIEDOSTĘPNA</h1>
+                <h1>USŁUGA JEST AKTUALNIE NIEDOSTĘPNA - ERROR API</h1>
             )
-        }else{
+        }if(this.state.errorCity){
+            this.state.content = (
+                <h1>Brak danych dla podanego maista - {this.state.city} nie istnieje lub zostało błędnie wpisane!</h1>
+            )
+        }if(!this.state.errorOWM&&!this.state.errorCity){
 
             this.state.content = (
                 <><div className="compare-main-cards">
@@ -792,6 +807,7 @@ class Compare extends React.Component
                         }
                 }>
                     <div className="city-form">
+                    <h1>Wyszukaj miasto dla którego chcesz porównać obecne warunki pogodowe oraz prognozy pogody</h1>
                         <Form 
                             value={this.state.value}  
                             handler={this.inputHandler}

@@ -60,12 +60,14 @@ const AirConditionItem = props =>
     if(error && !city)
     {
         content = (
-            <h1> {error} </h1>
+            
+            {error} 
+            
         );
     }
     return(
-    <div className="weatherCard">
-        {error ? `Brak danych dla podanego maista - ${city} nie istnieje lub zostało błędnie wpisane!` : content}
+        <div className="city-form">
+        {error ? <h1>Brak danych dla podanego maista - {city} nie istnieje, zostało błędnie wpisane lub usługa jest obecnie niedostępna -error API!</h1> : content}
     </div>
     );
 };

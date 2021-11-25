@@ -28,12 +28,13 @@ const WeatherItem = ({element, selectD: selectD }) =>
         aqi,
         color,
         pm2_5,
-        error
+        error,
+        errorCity
     } = element;
     
     let content = null
 
-    if(!error && city){
+    if(!error && city && !errorCity){
         content = (
             <div className="currentWeatherMain" >
                 <div className="conditions" >
@@ -96,8 +97,9 @@ const WeatherItem = ({element, selectD: selectD }) =>
             )
         }
     return (
-    <div className="weatherCard">
-        {error ? `Brak danych dla podanego maista - ${city} nie istnieje lub zostało błędnie wpisane!` : content}
+    <div className="currentWeatherMain">
+        {error ? <h1>Brak danych dla podanego maista - {city} nie istnieje lub zostało błędnie wpisane!</h1> : content}
+        {errorCity ? <h1>Usługa jest aktualnie niedostępna - error API</h1> : null}
     </div>
     )};
 
