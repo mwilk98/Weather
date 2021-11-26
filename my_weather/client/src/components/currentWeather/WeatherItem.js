@@ -36,7 +36,7 @@ const WeatherItem = ({element, selectD: selectD }) =>
 
     if(!error && city && !errorCity){
         content = (
-            <div className="currentWeatherMain" >
+            <div >
                 <div className="conditions" >
                     <div className="conditionsMain" >
                         <h1>{city} {country}</h1>

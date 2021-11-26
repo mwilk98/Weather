@@ -3,6 +3,7 @@ import Axios from 'axios';
 import {Link} from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 import './SignUp.css';
+import { useForm } from 'react-hook-form';
 
 function SignUp()
 {
@@ -23,25 +24,31 @@ function SignUp()
 
     Axios.defaults.withCredentials = true;
 
-    const register = () => 
-    {
+    const { register, handleSubmit, formState: { errors }} = useForm();
+    const onSubmit = (values) => {
+        console.log(values)
         Axios.post('http://localhost:3001/api/register',
         {
-            username:usernameReg,
-            password:passwordReg
+            username:values.user,
+            password:values.password
         }).then((response) =>
         {
             console.log(response);
             if(!response.data.err){
                 
-                alert(`Dodano użytkownika ${username}`)
+                alert(`Dodano użytkownika ${values.user}`)
                 //window.location.reload(false);
                 loginBtn()
             }else{
 
-                alert(`Nie dodano użytkownika ${username} ponieważ taki już istnieje!`)
+                alert(`Nie dodano użytkownika ${values.user} ponieważ taki już istnieje!`)
             }
         })
+    }
+
+    const registerUser = () => 
+    {
+       
         
         
     }
@@ -147,14 +154,15 @@ function SignUp()
                                                             'transform':`translateX(${x}px)`
                                                         }
                     }>
+                        
                         <input type="text" className="input-field" placeholder="Nazwa Użytkownika" 
                         onChange={(e)=>{setUsername(e.target.value)}}/>
 
-                        <input type="text" className="input-field" placeholder="Hasło" 
+                        <input type="password"  className="input-field" placeholder="Hasło" 
                         onChange={(e)=>{setPassword(e.target.value)}}/>
 
                         <button className="submit-btn" onClick={login}>Zaloguj </button>
-
+                        
                         <Link to='/my-weather'><button type="submit" className="submit-btn"> Powrót </button></Link>
 
                     </div>
@@ -163,16 +171,19 @@ function SignUp()
                                                                 'transform':`translateX(${y}px)`
                                                             }
                     }>
-                        <input type="text" className="input-field" placeholder="Nazwa Użytkownika" required 
-                        onChange={(e)=>{setUsernameReg(e.target.value)}}/>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                        <input type="text" minlength="4" className="input-field" placeholder="Nazwa Użytkownika"
+                        {...register("user", {
+                            required: "Required",
+                        })}/>   
+                        <input type="password" minlength="8" className="input-field" placeholder="Hasło"
+                        {...register("password", {
+                            required: "Required",
+                        })}/> 
 
-                       {// <input type="email" className="input-field" placeholder="email" required/>
-                        }   
-                        <input type="text" className="input-field" placeholder="Hasło" required
-                        onChange={(e)=>{setPasswordReg(e.target.value)}}/>
-
-                        <button type="submit" className="submit-btn" onClick={register}> Zarejestruj </button>
-
+                        <input type="submit" className="submit-btn2" value="Zarejestruj"/> 
+                        {errors.message && errors.message.message}
+                        </form>
                         <Link to='/my-weather'><button type="submit" className="submit-btn"> Powrót </button></Link>
 
                     </div>

@@ -74,7 +74,7 @@ function UserPanel()
                 console.log(response);
                 console.log("PropertyGet:",property);
             
-            if(property.length==0){
+            if(response.data==""){
                 alert("Błąd servera - offline")
             }
             
@@ -156,7 +156,7 @@ function UserPanel()
 
 
                         Miejsce
-                        <input type="text" name = "message"  className="input-field2" placeholder="Miejsce" required 
+                        <input type="text" name = "message" maxLength="20" className="input-field2" placeholder="Miejsce" required 
                         {...register("cityName", {
                             required: "Required",
                         })}
@@ -189,7 +189,7 @@ function UserPanel()
                         </select>
                         <td></td>
                         Temperatura
-                        <input type="number" min="-100" max="100" className="input-field2" placeholder="Temperatura (°C)" required 
+                        <input type="number" min="-90" max="60" className="input-field2" placeholder="Temperatura (°C)" required 
                         {...register("temp", {
                             required: "Required",
                         })}/>
