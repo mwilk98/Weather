@@ -1,7 +1,4 @@
-.main
-{
 
-}
 .currentWeatherMain
 {
     background: rgba(255, 255, 255, 0.75);
@@ -11,11 +8,7 @@
     text-align: center;
     
 }
-.currentWeatherMain button
-{
 
-    
-}
 .currentWeatherMain .conditions
 {
     position: relative;

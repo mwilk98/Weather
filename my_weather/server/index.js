@@ -52,7 +52,7 @@ const db = mysql.createPool(
 app.get('/api/get', (req,res)=>
 {
   
-    const sqlSelect= "SELECT * FROM user"+username2;
+    const sqlSelect= "SELECT * FROM user_"+username2;
 
     db.query(sqlSelect, (err,result)=>
     {
@@ -73,7 +73,7 @@ app.post('/api/insert',(req,res)=>
     const wind = req.body.wind;
     const aqi = req.body.aqi;
 
-    const sqlInsert= "INSERT INTO user" + username2  +"(city,date,time,weather,temp,clouds,humidity,pressure,wind,aqi) VALUES(?,?,?,?,?,?,?,?,?,?)";
+    const sqlInsert= "INSERT INTO user_" + username2  +"(city,date,time,weather,temp,clouds,humidity,pressure,wind,aqi) VALUES(?,?,?,?,?,?,?,?,?,?)";
     db.query(sqlInsert,
       [
         cityName,
@@ -118,7 +118,7 @@ app.post('/api/register', (req,res)=>
       }
     );
     db.query(
-      "CREATE TABLE user"+ username+ "(id INT NOT NULL AUTO_INCREMENT,city varchar(255),date date,time varchar(255),weather varchar(255),temp int(3),clouds  int(3),humidity  int(3),pressure  int(3),wind  int(3),aqi  int(3),PRIMARY KEY (`id`))",
+      "CREATE TABLE user_"+ username+ "(id INT NOT NULL AUTO_INCREMENT,city varchar(255),date date,time varchar(255),weather varchar(255),temp int(3),clouds  int(3),humidity  int(3),pressure  int(3),wind  int(3),aqi  int(3),PRIMARY KEY (`id`))",
       (err, result) => 
       {
         console.log(err)
@@ -253,7 +253,7 @@ app.post('/api/delete', (req,res)=>
     const id = req.body.id;
     console.log(id);
     db.query(
-      "DELETE FROM user"+username2+" where id=?;",
+      "DELETE FROM user_"+username2+" where id=?;",
       id,
       (err,result)=>
       {
